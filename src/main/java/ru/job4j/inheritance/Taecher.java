@@ -1,4 +1,4 @@
-package ru.job4j.oop;
+package ru.job4j.inheritance;
 
 /**
  * 1.2.2.Наследование
