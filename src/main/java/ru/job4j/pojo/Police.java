@@ -10,12 +10,7 @@ import java.util.Date;
  */
 public class Police {
     public static void main(String[] args) {
-        License license = new License();
-        license.setOwner("Petr Arsentev");
-        license.setModel("Vaz");
-        license.setCode("x123ep");
-        license.setCreated(new Date());
-
+        License license = new License("Petr Arsentev", "Vaz", "x123ep", new Date());
         System.out.println(license.getOwner()
                 + " has a car - " + license.getModel()
                 + " : " + license.getCode()
