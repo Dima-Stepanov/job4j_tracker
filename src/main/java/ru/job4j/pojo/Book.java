@@ -10,6 +10,11 @@ public class Book {
     private String name;
     private int sheet;
 
+    public Book(String name, int sheet) {
+        this.name = name;
+        this.sheet = sheet;
+    }
+
     public String getName() {
         return name;
     }

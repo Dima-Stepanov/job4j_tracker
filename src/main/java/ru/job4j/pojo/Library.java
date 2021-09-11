@@ -8,18 +8,10 @@ package ru.job4j.pojo;
  */
 public class Library {
     public static void main(String[] args) {
-        Book book1 = new Book();
-        book1.setName("Idiot");
-        book1.setSheet(250);
-        Book book2 = new Book();
-        book2.setName("Maygly");
-        book2.setSheet(350);
-        Book book3 = new Book();
-        book3.setName("War");
-        book3.setSheet(1500);
-        Book book4 = new Book();
-        book4.setName("Clean code");
-        book4.setSheet(2500);
+        Book book1 = new Book("Idiot", 250);
+        Book book2 = new Book("Maygly", 350);
+        Book book3 = new Book("War", 1500);
+        Book book4 = new Book("Clean code", 2500);
         Book[] books = new Book[]{book1, book2, book3, book4};
         for (Book book : books) {
             System.out.println(book.getName() + " - "
