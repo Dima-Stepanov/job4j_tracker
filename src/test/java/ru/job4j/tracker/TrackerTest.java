@@ -7,10 +7,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * 1.2.3Инкапсуляция
- * 5.Tracker-хранилище[#396#127071]
- *
+ * 5.Tracker-хранилище[#396#127071]test
+ * 6.Метод замены заявки.Tracker.replace[#211748#127066]test
  * @version 1
- * @since 11.10.2021
+ * @since 12.10.2021
  */
 public class TrackerTest {
     @Test
@@ -72,6 +72,15 @@ public class TrackerTest {
     }
 
     @Test
-    public void findById() {
+    public void whenReplace() {
+        Tracker tracker = new Tracker();
+        Item bug = new Item();
+        bug.setName("Bug");
+        tracker.add(bug);
+        int id = bug.getId();
+        Item bugWithDesc = new Item();
+        bugWithDesc.setName("Bug with description");
+        tracker.replace(id, bugWithDesc);
+        assertThat(tracker.findById(id).getName(), is("Bug with description"));
     }
 }
