@@ -11,6 +11,7 @@ import java.util.Scanner;
  * 2.4.Реализация класса StartUI.Вывод всех заявок[#500745]
  * 2.5.Реализация класса StartUI.Изменение заявки[#500746]
  * 2.6.Реализация класса StartUI.Удаление заявки[#500747]
+ * 2.7.Реализация класса StartUI.Вывод заявки по id[#500748]
  *
  * @since 12.09.2021
  */
@@ -66,6 +67,17 @@ public class StartUI {
                     System.out.println("Заявка удалена успешно.");
                 } else {
                     System.out.println("Ошибка удаления заявки.");
+                }
+            } else if (select == 4) {
+                System.out.println("=== Find Item by ID ===");
+                System.out.print("Enter ID: ");
+                int id = Integer.parseInt(scanner.nextLine());
+                Item item = tracker.findById(id);
+                if (item != null) {
+                    System.out.println(item);
+                } else {
+                    System.out.println("Заявка с введенным id: "
+                            + id + " не найдена.");
                 }
             } else if (select == 6) {
                 run = false;
