@@ -7,7 +7,7 @@ import java.util.Arrays;
  * 5.Tracker-хранилище[#396#127071]
  * 6.Метод замены заявки.Tracker.replace[#211748#127066]
  * 7.Метод удаления заявки Tracker.delete[#211749#127070]
- *
+ * 8.Что такое валидация?[#246864]
  * @version 3
  * @since 12.10.2021
  */
@@ -74,11 +74,12 @@ public class Tracker {
      */
     public boolean replace(int id, Item item) {
         int index = indexOf(id);
-        if (index != -1) {
+        boolean rsl = index != -1;
+        if (rsl) {
             item.setId(items[index].getId());
             items[index] = item;
         }
-        return index != -1;
+        return rsl;
     }
 
     /**
@@ -88,10 +89,9 @@ public class Tracker {
      * @return boolean
      */
     public boolean delete(int id) {
-        boolean rsl = false;
         int index = indexOf(id);
-        if (index != -1) {
-            rsl = true;
+        boolean rsl = index != -1;
+        if (rsl) {
             System.arraycopy(items, index + 1, items, index, size - index - 1);
             items[size - 1] = null;
             size--;
