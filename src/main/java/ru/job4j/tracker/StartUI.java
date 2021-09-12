@@ -12,6 +12,7 @@ import java.util.Scanner;
  * 2.5.Реализация класса StartUI.Изменение заявки[#500746]
  * 2.6.Реализация класса StartUI.Удаление заявки[#500747]
  * 2.7.Реализация класса StartUI.Вывод заявки по id[#500748]
+ * 2.8.Реализация класса StartUI.Вывод заявок по имени[#500749]
  *
  * @since 12.09.2021
  */
@@ -78,6 +79,19 @@ public class StartUI {
                 } else {
                     System.out.println("Заявка с введенным id: "
                             + id + " не найдена.");
+                }
+            } else if (select == 5) {
+                System.out.println("=== Find Item by NAME ===");
+                System.out.print("Enter name: ");
+                String name = scanner.nextLine();
+                Item[] items = tracker.findByName(name);
+                if (items.length > 0) {
+                    for (Item item : items) {
+                        System.out.println(item);
+                    }
+                } else {
+                    System.out.println("Заявки с именем: "
+                            + name + " не найдены.");
                 }
             } else if (select == 6) {
                 run = false;
