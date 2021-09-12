@@ -6,8 +6,9 @@ import java.util.Arrays;
  * 1.2.3Инкапсуляция
  * 5.Tracker-хранилище[#396#127071]
  * 6.Метод замены заявки.Tracker.replace[#211748#127066]
+ * 7.Метод удаления заявки Tracker.delete[#211749#127070]
  *
- * @version 2
+ * @version 3
  * @since 12.10.2021
  */
 public class Tracker {
@@ -66,7 +67,8 @@ public class Tracker {
 
     /**
      * Замена заявки по ID
-     * @param id int ID Item
+     *
+     * @param id   int ID Item
      * @param item new Item
      * @return boolean result
      */
@@ -80,6 +82,24 @@ public class Tracker {
     }
 
     /**
+     * 7.Метод удаления заявки Tracker.delete[#211749#127070]
+     *
+     * @param id int Item
+     * @return boolean
+     */
+    public boolean delete(int id) {
+        boolean rsl = false;
+        int index = indexOf(id);
+        if (index != -1) {
+            rsl = true;
+            System.arraycopy(items, index + 1, items, index, size - index - 1);
+            items[size - 1] = null;
+            size--;
+        }
+        return rsl;
+    }
+
+    /**
      * Возвращает Index по ID
      *
      * @param id int item
@@ -87,7 +107,7 @@ public class Tracker {
      */
     private int indexOf(int id) {
         int rsl = -1;
-        for (int i = 0; i < items.length; i++) {
+        for (int i = 0; i < size; i++) {
             if (items[i].getId() == id) {
                 rsl = i;
                 break;

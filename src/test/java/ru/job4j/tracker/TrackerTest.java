@@ -4,11 +4,14 @@ import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.nullValue;
 
 /**
  * 1.2.3Инкапсуляция
  * 5.Tracker-хранилище[#396#127071]test
  * 6.Метод замены заявки.Tracker.replace[#211748#127066]test
+ * 7.Метод удаления заявки Tracker.delete[#211749#127070]test
+ *
  * @version 1
  * @since 12.10.2021
  */
@@ -82,5 +85,33 @@ public class TrackerTest {
         bugWithDesc.setName("Bug with description");
         tracker.replace(id, bugWithDesc);
         assertThat(tracker.findById(id).getName(), is("Bug with description"));
+    }
+
+    @Test
+    public void whenDeleta() {
+        Tracker tracker = new Tracker();
+        Item bug = new Item("bug");
+        tracker.add(bug);
+        int id = bug.getId();
+        tracker.delete(id);
+        assertThat(tracker.findById(id), is(nullValue()));
+    }
+
+    @Test
+    public void whenDelete5ElementItem() {
+        Tracker tracker = new Tracker();
+        Item first = new Item("First");
+        Item second = new Item("Second");
+        Item third = new Item("Third");
+        Item four = new Item("Four");
+        Item five = new Item("Five");
+        tracker.add(first);
+        tracker.add(second);
+        tracker.add(third);
+        tracker.add(four);
+        tracker.add(five);
+        int id = second.getId();
+        tracker.delete(id);
+        assertThat(tracker.findById(id), is(nullValue()));
     }
 }
