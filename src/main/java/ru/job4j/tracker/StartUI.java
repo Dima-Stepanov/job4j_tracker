@@ -5,11 +5,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 /**
- * 1.2.2.Наследование
+ * 1.2.4.Полиморфизм
  * 2.2.Реализация класса StartUI.Вывод меню[#500743]
  * 2.3.Реализация класса StartUI.Добавление заявки[#500744]
  * 2.4.Реализация класса StartUI.Вывод всех заявок[#500745]
  * 2.5.Реализация класса StartUI.Изменение заявки[#500746]
+ * 2.6.Реализация класса StartUI.Удаление заявки[#500747]
  *
  * @since 12.09.2021
  */
@@ -56,6 +57,15 @@ public class StartUI {
                     System.out.println("Заявка изменена успешно.");
                 } else {
                     System.out.println("Ошибка замены заявки.");
+                }
+            } else if (select == 3) {
+                System.out.println("=== Delete item ===");
+                System.out.print("Enter id: ");
+                int id = Integer.parseInt(scanner.nextLine());
+                if (tracker.delete(id)) {
+                    System.out.println("Заявка удалена успешно.");
+                } else {
+                    System.out.println("Ошибка удаления заявки.");
                 }
             } else if (select == 6) {
                 run = false;
