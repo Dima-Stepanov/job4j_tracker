@@ -1,19 +1,22 @@
 package ru.job4j.tracker;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 /**
  * 1.2.2.Наследование
  * 2.Перегрузка конструктора[#173890#127063]
  * 6.Date.Отображение даты.[#310017]
+ * 9.toString[#310018]
  *
- * @since 10.09.2021
+ * @since 12.09.2021
  */
 public class Item {
     private int id;
     private String name;
     private LocalDateTime created = LocalDateTime.now();
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MMMM-EEEE-yyyy HH:mm:ss");
 
     public Item() {
     }
@@ -62,5 +65,13 @@ public class Item {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, created);
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" + "id=" + id
+                + ", name='" + name + '\''
+                + ", created=" + created.format(FORMATTER)
+                + '}';
     }
 }
