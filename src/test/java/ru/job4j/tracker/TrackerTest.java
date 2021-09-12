@@ -5,6 +5,13 @@ import org.junit.Test;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+/**
+ * 1.2.3Инкапсуляция
+ * 5.Tracker-хранилище[#396#127071]
+ *
+ * @version 1
+ * @since 11.10.2021
+ */
 public class TrackerTest {
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
@@ -14,5 +21,57 @@ public class TrackerTest {
         tracker.add(item);
         Item result = tracker.findById(item.getId());
         assertThat(result.getName(), is(item.getName()));
+    }
+
+    @Test
+    public void whenTestFindById() {
+        Tracker tracker = new Tracker();
+        Item bug = new Item("Bug");
+        Item item = tracker.add(bug);
+        Item result = tracker.findById(item.getId());
+        assertThat(result.getName(), is(item.getName()));
+    }
+
+    @Test
+    public void whenTestFindAll() {
+        Tracker tracker = new Tracker();
+        Item first = new Item("First");
+        Item second = new Item("Second");
+        tracker.add(second);
+        tracker.add(first);
+        Item result = tracker.findAll()[0];
+        assertThat(result.getName(), is(second.getName()));
+    }
+
+    @Test
+    public void whenTestFindByNameCheckArrayLength() {
+        Tracker tracker = new Tracker();
+        Item first = new Item("First");
+        Item second = new Item("Second");
+        tracker.add(first);
+        tracker.add(second);
+        tracker.add(new Item("First"));
+        tracker.add(new Item("Second"));
+        tracker.add(new Item("First"));
+        Item[] result = tracker.findByName(first.getName());
+        assertThat(result.length, is(3));
+    }
+
+    @Test
+    public void whenTestFindByNameCheckSecondItemName() {
+        Tracker tracker = new Tracker();
+        Item first = new Item("First");
+        Item second = new Item("Second");
+        tracker.add(first);
+        tracker.add(second);
+        tracker.add(new Item("First"));
+        tracker.add(new Item("Second"));
+        tracker.add(new Item("First"));
+        Item[] result = tracker.findByName(second.getName());
+        assertThat(result[1].getName(), is(second.getName()));
+    }
+
+    @Test
+    public void findById() {
     }
 }
