@@ -12,7 +12,7 @@ package ru.job4j.tracker;
  * 4.1.Разрыв зависимости StartUI от Scanner.[#181778#127019]
  * 4.2.Статические методы.[#181779#127029]
  *
- * @since 14.09.2021
+ * @since 14.10.2021
  */
 public class StartUI {
     /**
