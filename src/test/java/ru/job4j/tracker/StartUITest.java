@@ -1,6 +1,7 @@
 package ru.job4j.tracker;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -13,6 +14,7 @@ import static org.hamcrest.Matchers.is;
  * 5.1.Тестирование.Подготовка данных.[#182960#127022]
  * 8.Реализация меню за счет шаблона стратегия.[#181780#127032]
  * 9.Написать тесты на StartUI.[#785#127017]
+ * 9.1.Зависимость от System.out[#33568#127018]
  *
  * @since 16.09.2021
  */
@@ -23,7 +25,8 @@ public class StartUITest {
         String[] answers = {"Fix PC"};
         Input input = new StudInput(answers);
         Tracker tracker = new Tracker();
-        CreateAction createAction = new CreateAction();
+        Output output = new ConsoleOutput();
+        CreateAction createAction = new CreateAction(output);
         createAction.execute(input, tracker);
         Item created = tracker.findAll()[0];
         Item expected = new Item("Fix PC");
@@ -35,7 +38,8 @@ public class StartUITest {
         String[] answers = {"First", "Second"};
         Input input = new StudInput(answers);
         Tracker tracker = new Tracker();
-        CreateAction createAction = new CreateAction();
+        Output output = new ConsoleOutput();
+        CreateAction createAction = new CreateAction(output);
         createAction.execute(input, tracker);
         createAction.execute(input, tracker);
         Item created0 = tracker.findAll()[0];
@@ -56,7 +60,8 @@ public class StartUITest {
                 "replace item"
         };
         Input input = new StudInput(answer);
-        ReplaceAction replaceAction = new ReplaceAction();
+        Output out = new ConsoleOutput();
+        ReplaceAction replaceAction = new ReplaceAction(out);
         replaceAction.execute(input, tracker);
         Item replaced = tracker.findById(item.getId());
         assertThat(replaced.getName(), is("replace item"));
@@ -70,7 +75,8 @@ public class StartUITest {
         int idItem = item.getId();
         String[] answer = {String.valueOf(idItem)};
         Input input = new StudInput(answer);
-        DeleteAction deleteAction = new DeleteAction();
+        Output output = new ConsoleOutput();
+        DeleteAction deleteAction = new DeleteAction(output);
         deleteAction.execute(input, tracker);
         Assert.assertNull(tracker.findById(idItem));
     }
@@ -81,9 +87,10 @@ public class StartUITest {
                 new String[]{"0", "Item name", "1"}
         );
         Tracker tracker = new Tracker();
+        Output output = new ConsoleOutput();
         UserAction[] actions = {
-                new CreateAction(),
-                new ExitAction()
+                new CreateAction(output),
+                new ExitAction(output)
         };
         new StartUI().init(input, tracker, actions);
         assertThat(tracker.findAll()[0].getName(), is("Item name"));
@@ -95,9 +102,10 @@ public class StartUITest {
                 new String[]{"0", "1", "Replace Item", "1"}
         );
         Tracker tracker = new Tracker();
+        Output output = new ConsoleOutput();
         UserAction[] actions = {
-                new ReplaceAction(),
-                new ExitAction()
+                new ReplaceAction(output),
+                new ExitAction(output)
         };
         Item item = new Item("Item");
         tracker.add(item);
@@ -108,9 +116,10 @@ public class StartUITest {
     @Test
     public void whenInitDeleteItem() {
         Input input = new StudInput(new String[]{"0", "1", "1"});
+        Output output = new ConsoleOutput();
         UserAction[] action = {
-                new DeleteAction(),
-                new ExitAction()
+                new DeleteAction(output),
+                new ExitAction(output)
         };
         Tracker tracker = new Tracker();
         Item item = new Item("Item");

@@ -3,11 +3,18 @@ package ru.job4j.tracker;
 /**
  * 1.2.4.Полиморфизм
  * 8.Реализация меню за счет шаблона стратегия.[#181780#127032]
+ * 9.1.Зависимость от System.out[#33568#127018]
  * 1 Show all items
  *
- * @since 16.10.2021
+ * @since 16.09.2021
  */
 public class FindAllAction implements UserAction {
+    private final Output out;
+
+    public FindAllAction(Output out) {
+        this.out = out;
+    }
+
     /**
      * name menu
      *

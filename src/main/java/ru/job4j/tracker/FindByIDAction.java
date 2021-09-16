@@ -3,11 +3,18 @@ package ru.job4j.tracker;
 /**
  * 1.2.4.Полиморфизм
  * 8.Реализация меню за счет шаблона стратегия.[#181780#127032]
+ * 9.1.Зависимость от System.out[#33568#127018]
  * 4 "Find item by id"
  *
  * @since 16.09.2021
  */
 public class FindByIDAction implements UserAction {
+    private final Output out;
+
+    public FindByIDAction(Output out) {
+        this.out = out;
+    }
+
     /**
      * name menu
      *
@@ -22,7 +29,7 @@ public class FindByIDAction implements UserAction {
      * Find Item by ID
      * menu 4
      *
-     * @param input Input
+     * @param input   Input
      * @param tracker Tracker
      * @return boolean
      */
