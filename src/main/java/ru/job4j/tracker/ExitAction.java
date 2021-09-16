@@ -9,12 +9,6 @@ package ru.job4j.tracker;
  * @since 16.09.2021
  */
 public class ExitAction implements UserAction {
-    private final Output out;
-
-    public ExitAction(Output out) {
-        this.out = out;
-    }
-
     /**
      * name menu
      *
@@ -35,7 +29,6 @@ public class ExitAction implements UserAction {
      */
     @Override
     public boolean execute(Input input, Tracker tracker) {
-        System.out.print(name());
         return false;
     }
 }

@@ -16,6 +16,12 @@ package ru.job4j.tracker;
  * @since 16.09.2021
  */
 public class StartUI {
+    private final Output out;
+
+    public StartUI(Output out) {
+        this.out = out;
+    }
+
     /**
      * Метод init() - инициализирует приложение
      * и запускает выполнение различных пользовательских
@@ -39,9 +45,9 @@ public class StartUI {
      * Выводит на экран меню доступных пользовательских действий.
      */
     private void showMenu(UserAction[] action) {
-        System.out.println("Menu:");
+        out.println("Menu:");
         for (int i = 0; i < action.length; i++) {
-            System.out.println(i + ". " + action[i].name());
+            out.println(i + ". " + action[i].name());
 
         }
     }
@@ -62,8 +68,8 @@ public class StartUI {
                 new DeleteAction(output),
                 new FindByIDAction(output),
                 new FindByNameAction(output),
-                new ExitAction(output)
+                new ExitAction()
         };
-        new StartUI().init(input, tracker, actions);
+        new StartUI(output).init(input, tracker, actions);
     }
 }

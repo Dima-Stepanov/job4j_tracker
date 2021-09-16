@@ -15,6 +15,7 @@ import static org.hamcrest.Matchers.is;
  * 8.Реализация меню за счет шаблона стратегия.[#181780#127032]
  * 9.Написать тесты на StartUI.[#785#127017]
  * 9.1.Зависимость от System.out[#33568#127018]
+ * 9.2.Тесты вывода на консоль[#33585#127016]
  *
  * @since 16.09.2021
  */
@@ -90,9 +91,9 @@ public class StartUITest {
         Output output = new ConsoleOutput();
         UserAction[] actions = {
                 new CreateAction(output),
-                new ExitAction(output)
+                new ExitAction()
         };
-        new StartUI().init(input, tracker, actions);
+        new StartUI(output).init(input, tracker, actions);
         assertThat(tracker.findAll()[0].getName(), is("Item name"));
     }
 
@@ -105,11 +106,11 @@ public class StartUITest {
         Output output = new ConsoleOutput();
         UserAction[] actions = {
                 new ReplaceAction(output),
-                new ExitAction(output)
+                new ExitAction()
         };
         Item item = new Item("Item");
         tracker.add(item);
-        new StartUI().init(input, tracker, actions);
+        new StartUI(output).init(input, tracker, actions);
         assertThat(tracker.findById(item.getId()).getName(), is("Replace Item"));
     }
 
@@ -119,12 +120,101 @@ public class StartUITest {
         Output output = new ConsoleOutput();
         UserAction[] action = {
                 new DeleteAction(output),
-                new ExitAction(output)
+                new ExitAction()
         };
         Tracker tracker = new Tracker();
         Item item = new Item("Item");
         tracker.add(item);
-        new StartUI().init(input, tracker, action);
+        new StartUI(output).init(input, tracker, action);
         Assert.assertNull(tracker.findById(item.getId()));
+    }
+
+    @Test
+    public void whenOutExit() {
+        Output out = new StudOutput();
+        Input input = new StudInput(
+                new String[]{"0"}
+        );
+        Tracker tracker = new Tracker();
+        UserAction[] actions = {
+                new ExitAction()
+        };
+        new StartUI(out).init(input, tracker, actions);
+        assertThat(out.toString(), is(
+                "Menu:" + System.lineSeparator()
+                        + "0. Exit Program" + System.lineSeparator()
+        ));
+    }
+
+    @Test
+    public void whenOutFindAllAction() {
+        Output out = new StudOutput();
+        Input in = new StudInput(
+                new String[]{"0", "1"}
+        );
+        Tracker tracker = new Tracker();
+        UserAction[] actions = {
+                new FindAllAction(out),
+                new ExitAction()
+        };
+        new StartUI(out).init(in, tracker, actions);
+        assertThat(out.toString(), is(
+                "Menu:" + System.lineSeparator()
+                        + "0. Show all items" + System.lineSeparator()
+                        + "1. Exit Program" + System.lineSeparator()
+                        + "=== Show all items ===" + System.lineSeparator()
+                        + "Хранилище еще не содержит заявок" + System.lineSeparator()
+                        + "Menu:" + System.lineSeparator()
+                        + "0. Show all items" + System.lineSeparator()
+                        + "1. Exit Program" + System.lineSeparator()
+        ));
+    }
+
+    @Test
+    public void whenOutFindByNameAction() {
+        Output out = new StudOutput();
+        Input input = new StudInput(
+                new String[]{"0", "Item", "1"}
+        );
+        UserAction[] action = {
+                new FindByNameAction(out),
+                new ExitAction()
+        };
+        Tracker tracker = new Tracker();
+        new StartUI(out).init(input, tracker, action);
+        assertThat(out.toString(), is(
+                "Menu:" + System.lineSeparator()
+                        + "0. Find items by name" + System.lineSeparator()
+                        + "1. Exit Program" + System.lineSeparator()
+                        + "=== Find Item by NAME ===" + System.lineSeparator()
+                        + "Заявки с именем: Item не найдены." + System.lineSeparator()
+                        + "Menu:" + System.lineSeparator()
+                        + "0. Find items by name" + System.lineSeparator()
+                        + "1. Exit Program" + System.lineSeparator()
+        ));
+    }
+
+    @Test
+    public void whenOutFindByIDAction() {
+        Output out = new StudOutput();
+        Input input = new StudInput(
+                new String[]{"0", "11", "1"}
+        );
+        Tracker tracker = new Tracker();
+        UserAction[] action = {
+                new FindByIDAction(out),
+                new ExitAction()
+        };
+        new StartUI(out).init(input, tracker, action);
+        assertThat(out.toString(), is(
+                "Menu:" + System.lineSeparator()
+                        + "0. Find item by id" + System.lineSeparator()
+                        + "1. Exit Program" + System.lineSeparator()
+                        + "=== Find Item by ID ===" + System.lineSeparator()
+                        + "Заявка с введенным id: 11 не найдена." + System.lineSeparator()
+                        + "Menu:" + System.lineSeparator()
+                        + "0. Find item by id" + System.lineSeparator()
+                        + "1. Exit Program" + System.lineSeparator()
+        ));
     }
 }
