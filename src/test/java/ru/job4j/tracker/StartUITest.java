@@ -12,8 +12,9 @@ import static org.hamcrest.Matchers.is;
  * тестируем метод createdItem StartUI
  * 5.1.Тестирование.Подготовка данных.[#182960#127022]
  * 8.Реализация меню за счет шаблона стратегия.[#181780#127032]
+ * 9.Написать тесты на StartUI.[#785#127017]
  *
- * @since 16.10.2021
+ * @since 16.09.2021
  */
 public class StartUITest {
 
@@ -72,5 +73,49 @@ public class StartUITest {
         DeleteAction deleteAction = new DeleteAction();
         deleteAction.execute(input, tracker);
         Assert.assertNull(tracker.findById(idItem));
+    }
+
+    @Test
+    public void whenInitCreateItem() {
+        Input input = new StudInput(
+                new String[]{"0", "Item name", "1"}
+        );
+        Tracker tracker = new Tracker();
+        UserAction[] actions = {
+                new CreateAction(),
+                new ExitAction()
+        };
+        new StartUI().init(input, tracker, actions);
+        assertThat(tracker.findAll()[0].getName(), is("Item name"));
+    }
+
+    @Test
+    public void whenInitReplaceItem() {
+        Input input = new StudInput(
+                new String[]{"0", "1", "Replace Item", "1"}
+        );
+        Tracker tracker = new Tracker();
+        UserAction[] actions = {
+                new ReplaceAction(),
+                new ExitAction()
+        };
+        Item item = new Item("Item");
+        tracker.add(item);
+        new StartUI().init(input, tracker, actions);
+        assertThat(tracker.findById(item.getId()).getName(), is("Replace Item"));
+    }
+
+    @Test
+    public void whenInitDeleteItem() {
+        Input input = new StudInput(new String[]{"0", "1", "1"});
+        UserAction[] action = {
+                new DeleteAction(),
+                new ExitAction()
+        };
+        Tracker tracker = new Tracker();
+        Item item = new Item("Item");
+        tracker.add(item);
+        new StartUI().init(input, tracker, action);
+        Assert.assertNull(tracker.findById(item.getId()));
     }
 }

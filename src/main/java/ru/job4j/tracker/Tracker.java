@@ -9,7 +9,7 @@ import java.util.Arrays;
  * 7.Метод удаления заявки Tracker.delete[#211749#127070]
  * 8.Что такое валидация?[#246864]
  * @version 3
- * @since 12.10.2021
+ * @since 12.09.2021
  */
 public class Tracker {
     private final Item[] items = new Item[100];
