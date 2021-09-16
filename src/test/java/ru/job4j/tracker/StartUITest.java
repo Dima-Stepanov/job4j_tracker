@@ -11,8 +11,9 @@ import static org.hamcrest.Matchers.is;
  * 5.Input и полиморфизм.[#181094#127031]test
  * тестируем метод createdItem StartUI
  * 5.1.Тестирование.Подготовка данных.[#182960#127022]
+ * 8.Реализация меню за счет шаблона стратегия.[#181780#127032]
  *
- * @since 15.10.2021
+ * @since 16.10.2021
  */
 public class StartUITest {
 
@@ -21,7 +22,8 @@ public class StartUITest {
         String[] answers = {"Fix PC"};
         Input input = new StudInput(answers);
         Tracker tracker = new Tracker();
-        StartUI.createItem(input, tracker);
+        CreateAction createAction = new CreateAction();
+        createAction.execute(input, tracker);
         Item created = tracker.findAll()[0];
         Item expected = new Item("Fix PC");
         assertThat(created.getName(), is(expected.getName()));
@@ -32,8 +34,9 @@ public class StartUITest {
         String[] answers = {"First", "Second"};
         Input input = new StudInput(answers);
         Tracker tracker = new Tracker();
-        StartUI.createItem(input, tracker);
-        StartUI.createItem(input, tracker);
+        CreateAction createAction = new CreateAction();
+        createAction.execute(input, tracker);
+        createAction.execute(input, tracker);
         Item created0 = tracker.findAll()[0];
         Item created1 = tracker.findAll()[1];
         Item expected0 = new Item("First");
@@ -52,7 +55,8 @@ public class StartUITest {
                 "replace item"
         };
         Input input = new StudInput(answer);
-        StartUI.replaceItem(input, tracker);
+        ReplaceAction replaceAction = new ReplaceAction();
+        replaceAction.execute(input, tracker);
         Item replaced = tracker.findById(item.getId());
         assertThat(replaced.getName(), is("replace item"));
     }
@@ -64,7 +68,9 @@ public class StartUITest {
         tracker.add(item);
         int idItem = item.getId();
         String[] answer = {String.valueOf(idItem)};
-        StartUI.deleteItem(new StudInput(answer), tracker);
+        Input input = new StudInput(answer);
+        DeleteAction deleteAction = new DeleteAction();
+        deleteAction.execute(input, tracker);
         Assert.assertNull(tracker.findById(idItem));
     }
 }

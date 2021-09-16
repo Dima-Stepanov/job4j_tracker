@@ -11,6 +11,7 @@ package ru.job4j.tracker;
  * 2.8.Реализация класса StartUI.Вывод заявок по имени[#500749]
  * 4.1.Разрыв зависимости StartUI от Scanner.[#181778#127019]
  * 4.2.Статические методы.[#181779#127029]
+ * 8.Реализация меню за счет шаблона стратегия.[#181780#127032]
  *
  * @since 14.10.2021
  */
@@ -22,151 +23,25 @@ public class StartUI {
      *
      * @param input   Input interface
      * @param tracker Tracker
+     * @param actions UserAction[]
      */
-    public void init(Input input, Tracker tracker) {
+    public void init(Input input, Tracker tracker, UserAction[] actions) {
         boolean run = true;
         while (run) {
-            showMenu();
-            int select = input.askInt("Select: ");
-            if (select == 0) {
-                StartUI.createItem(input, tracker);
-            } else if (select == 1) {
-                StartUI.findAllItem(tracker);
-            } else if (select == 2) {
-                StartUI.replaceItem(input, tracker);
-            } else if (select == 3) {
-                StartUI.deleteItem(input, tracker);
-            } else if (select == 4) {
-                StartUI.findByIdItem(input, tracker);
-            } else if (select == 5) {
-                StartUI.findByNameItem(input, tracker);
-            } else if (select == 6) {
-                run = false;
-            }
-        }
-    }
-
-    /**
-     * Create new Item
-     * menu 0
-     *
-     * @param input   Input
-     * @param tracker Tracker
-     */
-    public static void createItem(Input input, Tracker tracker) {
-        System.out.println("=== Create a new Item ===");
-        String name = input.askStr("Enter name: ");
-        Item item = new Item(name);
-        tracker.add(item);
-        System.out.println("Добавлена заявка: " + item);
-    }
-
-    /**
-     * Show all Items
-     * menu 1
-     *
-     * @param tracker Tracker
-     */
-    public static void findAllItem(Tracker tracker) {
-        System.out.println("=== Show all items ===");
-        Item[] items = tracker.findAll();
-        if (items.length > 0) {
-            for (Item item : items) {
-                System.out.println(item);
-            }
-        } else {
-            System.out.println("Хранилище еще не содержит заявок");
-        }
-    }
-
-    /**
-     * Edit Item
-     * menu 2
-     *
-     * @param input   Input
-     * @param tracker Tracker
-     */
-    public static void replaceItem(Input input, Tracker tracker) {
-        System.out.println("=== Edit Item ===");
-        int id = input.askInt("Entar id: ");
-        String name = input.askStr("Enter name: ");
-        Item item = new Item(name);
-        if (tracker.replace(id, item)) {
-            System.out.println("Заявка изменена успешно.");
-        } else {
-            System.out.println("Ошибка замены заявки.");
-        }
-    }
-
-    /**
-     * Delete Item
-     * menu 3
-     *
-     * @param input   Input
-     * @param tracker Tracker
-     */
-    public static void deleteItem(Input input, Tracker tracker) {
-        System.out.println("=== Delete Item ===");
-        int id = input.askInt("Enter id: ");
-        if (tracker.delete(id)) {
-            System.out.println("Заявка удалена успешно.");
-        } else {
-            System.out.println("Ошибка удаления заявки.");
-        }
-    }
-
-    /**
-     * Find Item by ID
-     * menu 4
-     *
-     * @param input Input
-     * @param tracker Tracker
-     */
-    public static void findByIdItem(Input input, Tracker tracker) {
-        System.out.println("=== Find Item by ID ===");
-        int id = input.askInt("Enter ID: ");
-        Item item = tracker.findById(id);
-        if (item != null) {
-            System.out.println(item);
-        } else {
-            System.out.println("Заявка с введенным id: "
-                    + id + " не найдена.");
-        }
-    }
-
-    /**
-     * Find Item by NAME
-     * menu 5
-     *
-     * @param input Input
-     * @param tracker Tracker
-     */
-    public static void findByNameItem(Input input, Tracker tracker) {
-        System.out.println("=== Find Item by NAME ===");
-        String name = input.askStr("Enter name: ");
-        Item[] items = tracker.findByName(name);
-        if (items.length > 0) {
-            for (Item item : items) {
-                System.out.println(item);
-            }
-        } else {
-            System.out.println("Заявки с именем: "
-                    + name + " не найдены.");
+            this.showMenu(actions);
+            int select = input.askInt("Select : ");
+            UserAction action = actions[select];
+            run = action.execute(input, tracker);
         }
     }
 
     /**
      * Выводит на экран меню доступных пользовательских действий.
      */
-    private void showMenu() {
-        String[] menu = {
-                "Add new Item", "Show all items", "Edit item",
-                "Delete item", "Find item by id", "Find items by name",
-                "Exit Program"
-        };
+    private void showMenu(UserAction[] action) {
         System.out.println("Menu:");
-        for (int i = 0; i < menu.length; i++) {
-            System.out.println(i + ". " + menu[i]);
+        for (int i = 0; i < action.length; i++) {
+            System.out.println(i + ". " + action[i].name());
 
         }
     }
@@ -179,6 +54,15 @@ public class StartUI {
     public static void main(String[] args) {
         Input input = new ConsoleInput();
         Tracker tracker = new Tracker();
-        new StartUI().init(input, tracker);
+        UserAction[] actions = {
+                new CreateAction(),
+                new FindAllAction(),
+                new ReplaceAction(),
+                new DeleteAction(),
+                new FindByIDAction(),
+                new FindByNameAction(),
+                new ExitAction()
+        };
+        new StartUI().init(input, tracker, actions);
     }
 }
