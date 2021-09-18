@@ -3,8 +3,9 @@ package ru.job4j.ex;
 /**
  * 1.2.5.Исключения
  * 0.4.Пользовательские исключения.[#219367#127041]
+ * 0.5.Иерархия исключений и множественный catch.[#219368#127033]
  *
- * @since 17.09.2021
+ * @since 18.09.2021
  */
 public class FindEl {
     public static int indexOf(String[] value, String key) throws ElementNotFoundException {
@@ -21,15 +22,27 @@ public class FindEl {
         return rsl;
     }
 
-    public static void main(String[] args) {
-        String[] value = {"first", "second", "third", "four"};
-        String key = "thir";
-        int rsl = -1;
+    public static boolean sent(String value, String[] abuses) throws ElementAbuseException {
+        boolean rsl = true;
+        for (String abuse : abuses) {
+            if (value.equals(abuse)) {
+                rsl = false;
+                break;
+            }
+        }
+        if (!rsl) {
+            throw new ElementAbuseException("Message is included in the list of blocked messages");
+        }
+        return rsl;
+    }
+
+    public static void process(String[] value, String key, String[] abuses) {
         try {
-            rsl = indexOf(value, key);
-        } catch (ElementNotFoundException e) {
+            if (indexOf(value, key) != -1) {
+                sent(key, value);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(rsl);
     }
 }
