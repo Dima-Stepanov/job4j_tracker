@@ -12,7 +12,10 @@ package ru.job4j.tracker;
  * 4.1.Разрыв зависимости StartUI от Scanner.[#181778#127019]
  * 4.2.Статические методы.[#181779#127029]
  * 8.Реализация меню за счет шаблона стратегия.[#181780#127032]
+ * 1.2.5.Исключения
+ * 1.Обеспечить бесперебойную работу приложения Tracker[#789#127037]
  *
+ * @since 18.09.2021
  * @since 16.09.2021
  */
 public class StartUI {
@@ -36,6 +39,10 @@ public class StartUI {
         while (run) {
             this.showMenu(actions);
             int select = input.askInt("Select : ");
+            if (select < 0 || select >= actions.length) {
+                out.println("Wrong input, you can select: 0.. ");
+                continue;
+            }
             UserAction action = actions[select];
             run = action.execute(input, tracker);
         }
@@ -59,7 +66,7 @@ public class StartUI {
      */
     public static void main(String[] args) {
         Output output = new ConsoleOutput();
-        Input input = new ConsoleInput();
+        Input input = new ValidateInput();
         Tracker tracker = new Tracker();
         UserAction[] actions = {
                 new CreateAction(output),
