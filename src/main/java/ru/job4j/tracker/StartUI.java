@@ -14,6 +14,7 @@ package ru.job4j.tracker;
  * 8.Реализация меню за счет шаблона стратегия.[#181780#127032]
  * 1.2.5.Исключения
  * 1.Обеспечить бесперебойную работу приложения Tracker[#789#127037]
+ * 2.Рефакторинг-Шаблон Декоратор для валидатора.[#34117#127042]
  *
  * @since 18.09.2021
  * @since 16.09.2021
@@ -66,7 +67,7 @@ public class StartUI {
      */
     public static void main(String[] args) {
         Output output = new ConsoleOutput();
-        Input input = new ValidateInput();
+        Input input = new ValidateInput(output, new ConsoleInput());
         Tracker tracker = new Tracker();
         UserAction[] actions = {
                 new CreateAction(output),
