@@ -16,6 +16,8 @@ import static org.hamcrest.Matchers.is;
  * 9.Написать тесты на StartUI.[#785#127017]
  * 9.1.Зависимость от System.out[#33568#127018]
  * 9.2.Тесты вывода на консоль[#33585#127016]
+ * 1.2.5.Исключения
+ * 1.1.Тесты на StartUI.[#223313#127036]
  *
  * @since 16.09.2021
  */
@@ -215,6 +217,25 @@ public class StartUITest {
                         + "Menu:" + System.lineSeparator()
                         + "0. Find item by id" + System.lineSeparator()
                         + "1. Exit Program" + System.lineSeparator()
+        ));
+    }
+
+    @Test
+    public void whenInvalidExit() {
+        Output out = new StudOutput();
+        Input in = new StudInput(new String[]{"9", "0"});
+        UserAction[] actions = new UserAction[]{
+                new ExitAction()
+        };
+        Tracker tracker = new Tracker();
+        new StartUI(out).init(in, tracker, actions);
+        String ln = System.lineSeparator();
+        assertThat(out.toString(), is(
+                "Menu:" + ln
+                        + "0. Exit Program" + ln
+                        + "Wrong input, you can select: 0.. 0" + ln
+                        + "Menu:" + ln
+                        + "0. Exit Program" + ln
         ));
     }
 }
