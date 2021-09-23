@@ -1,5 +1,8 @@
 package ru.job4j.tracker;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 1.2.4.Полиморфизм
  * 2.2.Реализация класса StartUI.Вывод меню[#500743]
@@ -35,16 +38,16 @@ public class StartUI {
      * @param tracker Tracker
      * @param actions UserAction[]
      */
-    public void init(Input input, Tracker tracker, UserAction[] actions) {
+    public void init(Input input, Tracker tracker, List<UserAction> actions/*UserAction[] actions*/) {
         boolean run = true;
         while (run) {
             this.showMenu(actions);
             int select = input.askInt("Select : ");
-            if (select < 0 || select >= actions.length) {
-                out.println("Wrong input, you can select: 0.. " + (actions.length - 1));
+            if (select < 0 || select >= actions.size()) {
+                out.println("Wrong input, you can select: 0.. " + (actions.size() - 1));
                 continue;
             }
-            UserAction action = actions[select];
+            UserAction action = actions.get(select);
             run = action.execute(input, tracker);
         }
     }
@@ -52,10 +55,10 @@ public class StartUI {
     /**
      * Выводит на экран меню доступных пользовательских действий.
      */
-    private void showMenu(UserAction[] action) {
+    private void showMenu(List<UserAction> action) {
         out.println("Menu:");
-        for (int i = 0; i < action.length; i++) {
-            out.println(i + ". " + action[i].name());
+        for (int i = 0; i < action.size(); i++) {
+            out.println(i + ". " + action.get(i).name());
 
         }
     }
@@ -69,7 +72,7 @@ public class StartUI {
         Output output = new ConsoleOutput();
         Input input = new ValidateInput(output, new ConsoleInput());
         Tracker tracker = new Tracker();
-        UserAction[] actions = {
+        List<UserAction> actions = List.of(
                 new CreateAction(output),
                 new FindAllAction(output),
                 new ReplaceAction(output),
@@ -77,7 +80,7 @@ public class StartUI {
                 new FindByIDAction(output),
                 new FindByNameAction(output),
                 new ExitAction()
-        };
+        );
         new StartUI(output).init(input, tracker, actions);
     }
 }

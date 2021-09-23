@@ -1,5 +1,7 @@
 package ru.job4j.tracker;
 
+import java.util.List;
+
 /**
  * 1.2.4.Полиморфизм
  * 8.Реализация меню за счет шаблона стратегия.[#181780#127032]
@@ -36,8 +38,8 @@ public class FindAllAction implements UserAction {
     @Override
     public boolean execute(Input input, Tracker tracker) {
         out.println("=== Show all items ===");
-        Item[] items = tracker.findAll();
-        if (items.length > 0) {
+        List<Item> items = tracker.findAll();
+        if (items.size() > 0) {
             for (Item item : items) {
                 out.println(item);
             }
