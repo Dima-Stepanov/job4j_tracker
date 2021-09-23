@@ -16,7 +16,8 @@ public class Item {
     private int id;
     private String name;
     private LocalDateTime created = LocalDateTime.now();
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MMMM-EEEE-yyyy HH:mm:ss");
+    private static final DateTimeFormatter
+            FORMATTER = DateTimeFormatter.ofPattern("dd-MMMM-EEEE-yyyy HH:mm:ss");
 
     public Item() {
     }
@@ -59,7 +60,8 @@ public class Item {
             return false;
         }
         Item item = (Item) o;
-        return id == item.id && Objects.equals(name, item.name) && Objects.equals(created, item.created);
+        return id == item.id && Objects.equals(name, item.name)
+                && Objects.equals(created, item.created);
     }
 
     @Override

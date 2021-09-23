@@ -38,7 +38,8 @@ public class StartUI {
      * @param tracker Tracker
      * @param actions UserAction[]
      */
-    public void init(Input input, Tracker tracker, List<UserAction> actions/*UserAction[] actions*/) {
+    public void init(Input input, Tracker tracker,
+                     List<UserAction> actions/*UserAction[] actions*/) {
         boolean run = true;
         while (run) {
             this.showMenu(actions);
