@@ -22,10 +22,26 @@ public class BankService {
     }
 
     /**
+     * Удаление пользователя из систему.
+     *
+     * @param passport User passport
+     * @return boolean
+     */
+    public boolean deleteUser(String passport) {
+        User user = findByPassport(passport);
+        boolean rsl = false;
+        if (user != null) {
+            users.remove(user);
+            rsl = true;
+        }
+        return rsl;
+    }
+
+    /**
      * Добавление нового счета к пользователю.
      *
      * @param passport Ключ поиска номер паспорта
-     * @param account Account
+     * @param account  Account
      */
     public void addAccount(String passport, Account account) {
         User user = findByPassport(passport);
@@ -72,8 +88,28 @@ public class BankService {
         return accountUser;
     }
 
+    /**
+     * Перечеселние средств с счета src на счет dest
+     * счета не найдены или средств не достаточно вернуть афдыу
+     *
+     * @param srcPassport   пасорт пользователя спсиания
+     * @param srcRequisite  счет списания
+     * @param destPassport  паспорт пользователя зачисления
+     * @param destRequisite счет хачесления
+     * @param amount        сумма перевода.
+     * @return boolean
+     */
     public boolean transferMoney(String srcPassport, String srcRequisite,
                                  String destPassport, String destRequisite, double amount) {
-        return false;
+        Account srcAccount = findByRequisite(srcPassport, srcRequisite);
+        Account destAccount = findByRequisite(destPassport, destRequisite);
+        boolean rsl = srcAccount != null
+                && destAccount != null
+                && srcAccount.getBalance() >= amount;
+        if (rsl) {
+            srcAccount.setBalance(srcAccount.getBalance() - amount);
+            destAccount.setBalance(destAccount.getBalance() + amount);
+        }
+        return rsl;
     }
 }
