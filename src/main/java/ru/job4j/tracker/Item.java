@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @since 12.09.2021
  */
-public class Item {
+public class Item implements Comparable<Item> {
     private int id;
     private String name;
     private LocalDateTime created = LocalDateTime.now();
@@ -75,5 +75,10 @@ public class Item {
                 + ", name='" + name + '\''
                 + ", created=" + created.format(FORMATTER)
                 + '}';
+    }
+
+    @Override
+    public int compareTo(Item another) {
+        return Integer.compare(id, another.id);
     }
 }
