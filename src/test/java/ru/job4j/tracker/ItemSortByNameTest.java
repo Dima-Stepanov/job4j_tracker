@@ -16,7 +16,6 @@ import static org.hamcrest.Matchers.is;
  * @since 27.09.2021
  */
 public class ItemSortByNameTest {
-
     @Test
     public void whenItemSortByName() {
         List<Item> items = Arrays.asList(
