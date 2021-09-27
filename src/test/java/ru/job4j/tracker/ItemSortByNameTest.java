@@ -4,7 +4,6 @@ import org.junit.Test;
 import ru.job4j.collection.ItemSortByNameRevesed;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
