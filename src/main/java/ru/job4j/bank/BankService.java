@@ -5,11 +5,17 @@ import java.util.*;
 /**
  * 1.3.3.Map.HashMap.LinkedHashMap
  * 3.Банковские переводы[#10038#127210]
- * главный сервис ru.job4j.bank.BankService.
+ * Главный сервис ru.job4j.bank.BankService.
  *
+ * @author Dmitry
+ * @version 1
  * @since 24.09.2021
  */
 public class BankService {
+    /**
+     * Для хранения счетов пользователей используется HashMap
+     * В качестве ключа модель данных User, для значения модель данных Account
+     */
     private final Map<User, List<Account>> users = new HashMap<>();
 
     /**
@@ -22,10 +28,10 @@ public class BankService {
     }
 
     /**
-     * Удаление пользователя из систему.
+     * Удаление пользователя из систему по номеру паспорта
      *
-     * @param passport User passport
-     * @return boolean
+     * @param passport User passport для удаления
+     * @return boolean true false.
      */
     public boolean deleteUser(String passport) {
         User user = findByPassport(passport);
@@ -39,6 +45,7 @@ public class BankService {
 
     /**
      * Добавление нового счета к пользователю.
+     * По номеру паспорта ищем пользователя, если находим проверяем есть ли такой аккаунт.
      *
      * @param passport Ключ поиска номер паспорта
      * @param account  Account
@@ -54,7 +61,7 @@ public class BankService {
      * Поиск пользователя по номеру паспорта
      *
      * @param passport Номер паспорта
-     * @return User
+     * @return User возвращает модель данных если найдена или null
      */
     public User findByPassport(String passport) {
         User userPassport = null;
@@ -68,11 +75,11 @@ public class BankService {
     }
 
     /**
-     * Поиск счета пользователя по реквизитам
+     * Поиск счета пользователя по паспорту и реквизитам.
      *
      * @param passport  Номер паспорта User
      * @param requisite Реквизиты Account
-     * @return Account
+     * @return Account или null
      */
     public Account findByRequisite(String passport, String requisite) {
         User user = findByPassport(passport);
@@ -89,15 +96,15 @@ public class BankService {
     }
 
     /**
-     * Перечеселние средств с счета src на счет dest
-     * счета не найдены или средств не достаточно вернуть афдыу
+     * Перечисление средств со счета src на счет dest.
+     * Счета не найдены или средств не достаточно вернуть false.
      *
-     * @param srcPassport   пасорт пользователя спсиания
+     * @param srcPassport   паспорт пользователя списания
      * @param srcRequisite  счет списания
      * @param destPassport  паспорт пользователя зачисления
-     * @param destRequisite счет хачесления
+     * @param destRequisite счет зачисления
      * @param amount        сумма перевода.
-     * @return boolean
+     * @return boolean true false.
      */
     public boolean transferMoney(String srcPassport, String srcRequisite,
                                  String destPassport, String destRequisite, double amount) {
