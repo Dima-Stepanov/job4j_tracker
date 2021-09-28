@@ -11,8 +11,8 @@ import java.util.Comparator;
 public class LexSort implements Comparator<String> {
     @Override
     public int compare(String left, String right) {
-        String[] leftAr = left.split("[. ]");
-        String[] rightAr = right.split("[. ]");
+        String[] leftAr = left.split("\\D");
+        String[] rightAr = right.split("\\D");
         int size = Math.min(leftAr.length, rightAr.length);
         int rsl = 0;
         for (int i = 0; i < size; i++) {
@@ -21,6 +21,6 @@ public class LexSort implements Comparator<String> {
                 break;
             }
         }
-        return rsl;
+        return rsl != 0 ? rsl : Integer.compare(leftAr.length, rightAr.length);
     }
 }
