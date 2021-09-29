@@ -18,3 +18,6 @@ notifications:
       - haoos@inbox.ru
     on_success: never # default: change
     on_failure: always # default: always
+env:
+  global:
+    CODECOV_TOKEN='366e50a4-8ba0-4cab-9025-8791809a5f18'
