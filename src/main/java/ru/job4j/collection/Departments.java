@@ -22,13 +22,13 @@ public class Departments {
         for (String value : deps) {
             String start = "";
             for (String el : value.split("/")) {
-                if (!start.equals("")) {
-                    start = start + "/" + el;
-                    tmp.add(start);
-                } else {
+                if (start.equals("")) {
                     start = el;
                     tmp.add(start);
+                    continue;
                 }
+                start += "/" + el;
+                tmp.add(start);
             }
         }
         return new ArrayList<>(tmp);
@@ -36,6 +36,7 @@ public class Departments {
 
     /**
      * Сортировка департамента по возрастанию Comparator.naturalOrder.
+     *
      * @param orgs неотсортированный список.
      */
     public static void sortAsc(List<String> orgs) {
@@ -44,9 +45,10 @@ public class Departments {
 
     /**
      * Сортировка департамента по убыванию.
+     *
      * @param orgs неотсортированный список.
      */
     public static void sortDesc(List<String> orgs) {
-
+        orgs.sort(new DepDescComp());
     }
 }
