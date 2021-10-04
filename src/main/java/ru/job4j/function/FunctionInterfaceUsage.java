@@ -7,7 +7,7 @@ import java.util.function.*;
 
 /**
  * 1.4.1.Lambda
- * 1.2.Функциональный интерфейc[#247497]
+ * 1.2.Функциональный интерфейc[#247497]теория
  *
  * @author Dmitry
  * @version 1
@@ -35,5 +35,23 @@ public class FunctionInterfaceUsage {
         BiPredicate<String, Integer> cond = (s, i) -> s.contains(i.toString());
         System.out.println("Строка содержит подстроку: " + cond.test("Name123", 123));
         System.out.println("Строка содержит подстроку: " + cond.test("Name", 123));
+        Function<String, Character> func = s -> s.charAt(2);
+        System.out.println("Третий символ в строке: " + func.apply("First"));
+        System.out.println("Третий символ в строке: " + func.apply("second"));
+        BiFunction<String, Integer, String> biFunc = (s, i) -> s.concat(" ").concat(i.toString());
+        System.out.println("Результат работы бифункции: " + biFunc.apply("name", 123));
+        System.out.println("Результат работы бифункции: " + biFunc.apply("String number", 123450));
+        UnaryOperator<StringBuilder> builder = b -> b.reverse();
+        System.out.println("Строка после реверса: "
+                + builder.apply(new StringBuilder("String for test")));
+        System.out.println("Строка после реверса: "
+                + builder.apply(new StringBuilder("tset rof gnirtS")));
+        BinaryOperator<StringBuilder> binBuilder = (b1, b2) -> b1.append(" ").append(b2);
+        System.out.println(
+                "Строка после обьединения: " + binBuilder.apply(
+                        new StringBuilder("First string"),
+                        new StringBuilder("Second string")
+                )
+        );
     }
 }
