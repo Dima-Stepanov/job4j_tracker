@@ -14,26 +14,6 @@ import java.util.function.Predicate;
  * @since 21.10.2021
  */
 public class SearchFolder {
-    public static List<Folder> filterSize(List<Folder> list) {
-        List<Folder> rsl = new ArrayList<>();
-        for (Folder f : list) {
-            if (f.getSize() > 100) {
-                rsl.add(f);
-            }
-        }
-        return rsl;
-    }
-
-    public static List<Folder> filterName(List<Folder> list) {
-        List<Folder> rsl = new ArrayList<>();
-        for (Folder f : list) {
-            if (f.getName().contains("bug")) {
-                rsl.add(f);
-            }
-        }
-        return rsl;
-    }
-
     /**
      * Универсальный метод поиска в списке Folder
      *
