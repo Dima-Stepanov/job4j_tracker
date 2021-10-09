@@ -6,10 +6,14 @@ import java.util.*;
  * 1.3.3.Map.HashMap.LinkedHashMap
  * 3.Банковские переводы[#10038#127210]
  * Главный сервис ru.job4j.bank.BankService.
+ * 1.4.2. Stream API.
+ * 6.Тестовое задание из модуля коллекции
+ * Lite переделать на Stream API.[#24260 #127094]задача.
  *
  * @author Dmitry
- * @version 1
+ * @version 2
  * @since 24.09.2021
+ * @since 10.10.2021
  */
 public class BankService {
     /**
@@ -59,23 +63,21 @@ public class BankService {
 
     /**
      * Поиск пользователя по номеру паспорта
+     * 10.10.2021 переделан на Stream API
      *
      * @param passport Номер паспорта
      * @return User возвращает модель данных если найдена или null
      */
     public User findByPassport(String passport) {
-        User userPassport = null;
-        for (User user : users.keySet()) {
-            if (user.getPassport().equals(passport)) {
-                userPassport = user;
-                break;
-            }
-        }
-        return userPassport;
+        return users.keySet().stream()
+                .filter(user -> user.getPassport().equals(passport))
+                .findFirst()
+                .orElse(null);
     }
 
     /**
      * Поиск счета пользователя по паспорту и реквизитам.
+     * 10.10.2021 переделан на Stream API
      *
      * @param passport  Номер паспорта User
      * @param requisite Реквизиты Account
@@ -83,16 +85,13 @@ public class BankService {
      */
     public Account findByRequisite(String passport, String requisite) {
         User user = findByPassport(passport);
-        Account accountUser = null;
         if (user != null) {
-            for (Account account : users.get(user)) {
-                if (account.getRequisite().equals(requisite)) {
-                    accountUser = account;
-                    break;
-                }
-            }
+            return users.get(user).stream()
+                    .filter(account -> account.getRequisite().equals(requisite))
+                    .findFirst()
+                    .orElse(null);
         }
-        return accountUser;
+        return null;
     }
 
     /**
