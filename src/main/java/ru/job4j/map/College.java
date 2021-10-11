@@ -1,6 +1,7 @@
 package ru.job4j.map;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -11,10 +12,13 @@ import java.util.Set;
  * Основной класс. College,
  * в котором будет 2 метода поиска студента по аккаунту,
  * а также поиск предмета по аккаунту и имени предмета.
+ * 1.4.3.Улучшенное Java API
+ * 3.Optional в банковских переводах.[#214711#127085]
  *
  * @author Dima_Nout
- * @version 1
+ * @version 2
  * @since 10.10.2021
+ * @since 11.10.2021
  */
 public class College {
     /**
@@ -37,11 +41,10 @@ public class College {
      * @param account ключ для поиска.
      * @return Student или null.
      */
-    public Student findByAccount(String account) {
+    public Optional<Student> findByAccount(String account) {
         return students.keySet().stream()
                 .filter(student -> student.getAccount().equals(account))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
     /**
@@ -51,33 +54,10 @@ public class College {
      * @param name    ключ для поиска имя придмета.
      * @return Subject или null.
      */
-    public Subject findBySubjectName(String account, String name) {
-        Student a = findByAccount(account);
-        if (a != null) {
-            return students.get(a).stream()
+    public Optional<Subject> findBySubjectName(String account, String name) {
+        Optional<Student> a = findByAccount(account);
+            return students.get(a.get()).stream()
                     .filter(subject -> subject.getName().equals(name))
-                    .findFirst()
-                    .orElse(null);
-        }
-        return null;
-    }
-
-    /**
-     * Метод main для проверки результатов
-     *
-     * @param args null
-     */
-    public static void main(String[] args) {
-        Map<Student, Set<Subject>> students = Map.of(new Student("Student", "000001", "201-18-15"),
-                Set.of(
-                        new Subject("Math", 70),
-                        new Subject("English", 85)
-                )
-        );
-        College college = new College(students);
-        Student student = college.findByAccount("000001");
-        System.out.println("Найденный студент: " + student);
-        Subject english = college.findBySubjectName("000001", "English");
-        System.out.println("Оценка по найденному предмету: " + english.getScore());
+                    .findFirst();
     }
 }
