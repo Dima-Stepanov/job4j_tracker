@@ -2,7 +2,7 @@ package ru.job4j.stream;
 
 import org.junit.Test;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -119,5 +119,52 @@ public class SchoolTest {
                 "Surname2", new Student(20, "Surname2")
         );
         assertThat(rsl, is(expected));
+    }
+
+    @Test
+    public void whenLevelOfThenBound3() {
+        School sc = new School();
+        List<Student> students = new ArrayList<>();
+        students.add(new Student(3, "Surname1"));
+        students.add(new Student(5, "Surname2"));
+        students.add(new Student(6, "Surname1"));
+        List<Student> expected = List.of(
+                new Student(6, "Surname1"),
+                new Student(5, "Surname2")
+        );
+        List<Student> result = sc.levelOf(students, 3);
+        assertThat(result, is(expected));
+    }
+
+    @Test
+    public void whenSorted() {
+        List<Student> input = new ArrayList<>();
+        School sc = new School();
+        input.add(new Student(28, "Masha"));
+        input.add(new Student(128, "Pety"));
+        List<Student> expected = List.of(
+                new Student(128, "Pety"),
+                new Student(28, "Masha")
+        );
+        assertThat(sc.levelOf(input, 20), is(expected));
+    }
+
+    @Test
+    public void whenOnlyNull() {
+        School sc = new School();
+        List<Student> input = new ArrayList<>();
+        input.add(null);
+        List<Student> expected = List.of();
+        assertThat(sc.levelOf(input, 100), is(expected));
+    }
+
+    @Test
+    public void whenHasNull() {
+        School sc = new School();
+        List<Student> input = new ArrayList<>();
+        input.add(null);
+        input.add(new Student(28, "Pety"));
+        List<Student> expected = List.of(new Student(28, "Pety"));
+        assertThat(sc.levelOf(input, 10), is(expected));
     }
 }
