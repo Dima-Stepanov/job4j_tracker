@@ -27,7 +27,7 @@ public class PhoneDictionary {
                 p.getName().equals(key) || p.getSurname().equals(key)
                         || p.getPhone().equals(key) || p.getAddress().equals(key);
         ArrayList<Person> result = new ArrayList<>();
-        for (Person person : persons) {
+        for (var person : persons) {
             if (combine.test(person)) {
                 result.add(person);
             }
