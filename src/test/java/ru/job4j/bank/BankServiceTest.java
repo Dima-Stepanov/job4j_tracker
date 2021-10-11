@@ -2,6 +2,7 @@ package ru.job4j.bank;
 
 import org.junit.Test;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -71,8 +72,10 @@ public class BankServiceTest {
         User user = new User("3434", "Petr Arsentev");
         BankService bank = new BankService();
         bank.addUser(user);
-        bank.addAccount(user.getPassport(), new Account("5546", 150D));
-        assertThat(bank.findByRequisite("34", "5546"), is(Optional.empty()));
+        Account account = new Account("5546", 150D);
+        bank.addAccount(user.getPassport(), account);
+        Optional<Account> findAccount = bank.findByRequisite("3434", "5546");
+        assertThat(findAccount, is(Optional.of(account)));
     }
 
     @Test
