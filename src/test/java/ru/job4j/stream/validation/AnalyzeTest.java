@@ -107,8 +107,8 @@ public class AnalyzeTest {
                 ))
         );
         List<Tuple> expected = List.of(
-                new Tuple("geo", 5),
-                new Tuple("mat", 3)
+                new Tuple("mat", 3),
+                new Tuple("geo", 5)
         );
         List<Tuple> result = Analyze.averageScoreByPupil(stream);
         assertThat(result, is(expected));
@@ -127,8 +127,8 @@ public class AnalyzeTest {
                 )
         );
         assertThat(average, is(List.of(
-                new Tuple("Lang", 80D),
-                new Tuple("Math", 80D)
+                new Tuple("Math", 80D),
+                new Tuple("Lang", 80D)
         )));
     }
 

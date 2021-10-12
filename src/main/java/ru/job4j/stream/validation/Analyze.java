@@ -10,8 +10,8 @@ import java.util.stream.Stream;
  * Класс Analyze получает статистику по аттестатам.
  *
  * @author Dmitry
- * @version 1
- * @since 11.10.2021
+ * @version 2
+ * @since 12.10.2021
  */
 public class Analyze {
     /**
@@ -57,6 +57,7 @@ public class Analyze {
                 .flatMap(p -> p.getSubjects().stream())
                 .collect(Collectors
                         .groupingBy(Subject::getName,
+                                LinkedHashMap::new,
                                 Collectors.averagingDouble(Subject::getScore)))
                 .entrySet().stream()
                 .map(m -> new Tuple(m.getKey(), m.getValue()))
@@ -94,6 +95,7 @@ public class Analyze {
                 .flatMap(p -> p.getSubjects().stream())
                 .collect(Collectors
                         .groupingBy(Subject::getName,
+                                LinkedHashMap::new,
                                 Collectors.summingDouble(Subject::getScore)))
                 .entrySet().stream()
                 .map(m -> new Tuple(m.getKey(), m.getValue()))
