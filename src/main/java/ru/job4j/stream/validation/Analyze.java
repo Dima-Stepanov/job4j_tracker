@@ -1,6 +1,7 @@
 package ru.job4j.stream.validation;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -20,7 +21,10 @@ public class Analyze {
      * @return double Общий средний бал по всем ученикам.
      */
     public static double averageScore(Stream<Pupil> stream) {
-        return 0D;
+        return stream.flatMap(p -> p.getSubjects().stream())
+                .mapToInt(Subject::getScore)
+                .average()
+                .orElse(0D);
     }
 
     /**
@@ -30,17 +34,33 @@ public class Analyze {
      * @return список из объекта Tuple (имя ученика и средний балл)
      */
     public static List<Tuple> averageScoreBySubject(Stream<Pupil> stream) {
-        return List.of();
+        return stream
+                .map(p -> new Tuple(
+                                p.getName(),
+                                p.getSubjects()
+                                        .stream()
+                                        .mapToInt(Subject::getScore)
+                                        .average()
+                                        .orElse(0D)
+                        )
+                ).collect(Collectors.toList());
     }
 
     /**
-     * Метод averageScoreByPupil вычисляет средний балл по всем предметам для каждого ученика.
+     * Метод averageScoreByPupil вычисляет средний балл предмета для всех учеников.
      *
      * @param stream Stream Pupil
      * @return список из объекта Tuple (имя ученика и средний балл)
      */
     public static List<Tuple> averageScoreByPupil(Stream<Pupil> stream) {
-        return List.of();
+        return stream
+                .flatMap(p -> p.getSubjects().stream())
+                .collect(Collectors
+                        .groupingBy(Subject::getName,
+                                Collectors.averagingDouble(Subject::getScore)))
+                .entrySet().stream()
+                .map(m -> new Tuple(m.getKey(), m.getValue()))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -50,7 +70,16 @@ public class Analyze {
      * @return Лучший ученик Tuple.
      */
     public static Tuple bestStudent(Stream<Pupil> stream) {
-        return null;
+        return stream
+                .map(p -> new Tuple(
+                                p.getName(),
+                                p.getSubjects()
+                                        .stream()
+                                        .mapToInt(Subject::getScore)
+                                        .sum()
+                        )
+                ).max(Comparator.comparing(Tuple::getScore))
+                .orElse(null);
     }
 
     /**
@@ -61,6 +90,14 @@ public class Analyze {
      * (имя предмета, сумма баллов каждого ученика по этому предмету).
      */
     public static Tuple bestSubject(Stream<Pupil> stream) {
-        return null;
+        return stream
+                .flatMap(p -> p.getSubjects().stream())
+                .collect(Collectors
+                        .groupingBy(Subject::getName,
+                                Collectors.summingDouble(Subject::getScore)))
+                .entrySet().stream()
+                .map(m -> new Tuple(m.getKey(), m.getValue()))
+                .max(Comparator.comparing(Tuple::getScore))
+                .orElse(null);
     }
 }
