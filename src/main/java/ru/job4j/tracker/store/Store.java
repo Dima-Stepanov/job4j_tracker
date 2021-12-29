@@ -12,7 +12,7 @@ import java.util.List;
  * @author Dmitry
  * @since 29.12.2021
  */
-public interface Store {
+public interface Store extends AutoCloseable {
     Item add(Item item);
 
     boolean replace(int id, Item item);
@@ -24,4 +24,6 @@ public interface Store {
     List<Item> findByName(String key);
 
     Item findById(int id);
+
+    void init();
 }

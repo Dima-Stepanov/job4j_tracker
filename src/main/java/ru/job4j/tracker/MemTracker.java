@@ -72,6 +72,10 @@ public class MemTracker implements Store {
         return index != -1 ? items.get(index) : null;
     }
 
+    @Override
+    public void init() {
+    }
+
     /**
      * Замена заявки по ID
      *
@@ -121,5 +125,9 @@ public class MemTracker implements Store {
             }
         }
         return rsl;
+    }
+
+    @Override
+    public void close() throws Exception {
     }
 }
