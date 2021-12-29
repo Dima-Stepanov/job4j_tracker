@@ -1,6 +1,6 @@
 package ru.job4j.tracker.store;
 
-import ru.job4j.tracker.Tracker;
+import ru.job4j.tracker.MemTracker;
 import ru.job4j.tracker.model.Item;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  */
 public final class SingleTracker {
     private static SingleTracker instance = null;
-    private Tracker tracker = new Tracker();
+    private MemTracker memTracker = new MemTracker();
 
     private SingleTracker() {
     }
@@ -37,7 +37,7 @@ public final class SingleTracker {
      * @return Item
      */
     public Item add(Item item) {
-        return tracker.add(item);
+        return memTracker.add(item);
     }
 
     /**
@@ -46,7 +46,7 @@ public final class SingleTracker {
      * @return Item[]
      */
     public List<Item> findAll() {
-        return tracker.findAll();
+        return memTracker.findAll();
     }
 
     /**
@@ -56,7 +56,7 @@ public final class SingleTracker {
      * @return Item[]
      */
     public List<Item> findByName(String key) {
-        return tracker.findByName(key);
+        return memTracker.findByName(key);
     }
 
     /**
@@ -66,7 +66,7 @@ public final class SingleTracker {
      * @return Item
      */
     public Item findById(int id) {
-        return tracker.findById(id);
+        return memTracker.findById(id);
     }
 
     /**
@@ -77,16 +77,16 @@ public final class SingleTracker {
      * @return boolean result
      */
     public boolean replace(int id, Item item) {
-        return tracker.replace(id, item);
+        return memTracker.replace(id, item);
     }
 
     /**
-     * удаления заявки Tracker.delete
+     * удаления заявки MemTracker.delete
      *
      * @param id int Item
      * @return boolean
      */
     public boolean delete(int id) {
-        return tracker.delete(id);
+        return memTracker.delete(id);
     }
 }

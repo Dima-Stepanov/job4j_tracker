@@ -6,6 +6,7 @@ import ru.job4j.tracker.input.Input;
 import ru.job4j.tracker.input.ValidateInput;
 import ru.job4j.tracker.output.ConsoleOutput;
 import ru.job4j.tracker.output.Output;
+import ru.job4j.tracker.store.Store;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ import java.util.List;
  * 4.2.Статические методы.[#181779#127029]
  * 8.Реализация меню за счет шаблона стратегия.[#181780#127032]
  * 1.2.5.Исключения
- * 1.Обеспечить бесперебойную работу приложения Tracker[#789#127037]
+ * 1.Обеспечить бесперебойную работу приложения MemTracker[#789#127037]
  * 2.Рефакторинг-Шаблон Декоратор для валидатора.[#34117#127042]
  *
  * @since 18.09.2021
@@ -44,7 +45,7 @@ public class StartUI {
      * @param tracker Tracker
      * @param actions UserAction[]
      */
-    public void init(Input input, Tracker tracker,
+    public void init(Input input, Store tracker,
                      List<UserAction> actions/*UserAction[] actions*/) {
         boolean run = true;
         while (run) {
@@ -71,23 +72,27 @@ public class StartUI {
     }
 
     /**
-     * Запуск приложения Tracker
+     * Запуск приложения MemTracker
      *
      * @param args String[]
      */
     public static void main(String[] args) {
         Output output = new ConsoleOutput();
         Input input = new ValidateInput(output, new ConsoleInput());
-        Tracker tracker = new Tracker();
-        List<UserAction> actions = List.of(
-                new CreateAction(output),
-                new FindAllAction(output),
-                new ReplaceAction(output),
-                new DeleteAction(output),
-                new FindByIDAction(output),
-                new FindByNameAction(output),
-                new ExitAction()
-        );
-        new StartUI(output).init(input, tracker, actions);
+        try (SqlTracker tracker = new SqlTracker()) {
+            tracker.init();
+            List<UserAction> actions = List.of(
+                    new CreateAction(output),
+                    new FindAllAction(output),
+                    new ReplaceAction(output),
+                    new DeleteAction(output),
+                    new FindByIDAction(output),
+                    new FindByNameAction(output),
+                    new ExitAction()
+            );
+            new StartUI(output).init(input, tracker, actions);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

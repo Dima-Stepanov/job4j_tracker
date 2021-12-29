@@ -3,7 +3,8 @@ package ru.job4j.tracker.action;
 import ru.job4j.tracker.input.Input;
 import ru.job4j.tracker.model.Item;
 import ru.job4j.tracker.output.Output;
-import ru.job4j.tracker.Tracker;
+import ru.job4j.tracker.MemTracker;
+import ru.job4j.tracker.store.Store;
 
 /**
  * 1.2.4.Полиморфизм
@@ -34,11 +35,11 @@ public class ReplaceAction implements UserAction {
      * menu 2
      *
      * @param input   Input
-     * @param tracker Tracker
+     * @param tracker Store
      * @return boolean
      */
     @Override
-    public boolean execute(Input input, Tracker tracker) {
+    public boolean execute(Input input, Store tracker) {
         out.println("=== Edit Item ===");
         int id = input.askInt("Entar id: ");
         String name = input.askStr("Enter name: ");

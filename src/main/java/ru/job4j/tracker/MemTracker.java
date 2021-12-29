@@ -1,21 +1,22 @@
 package ru.job4j.tracker;
 
 import ru.job4j.tracker.model.Item;
+import ru.job4j.tracker.store.Store;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 1.2.3Инкапсуляция
- * 5.Tracker-хранилище[#396#127071]
- * 6.Метод замены заявки.Tracker.replace[#211748#127066]
- * 7.Метод удаления заявки Tracker.delete[#211749#127070]
+ * 5.MemTracker-хранилище[#396#127071]
+ * 6.Метод замены заявки.MemTracker.replace[#211748#127066]
+ * 7.Метод удаления заявки MemTracker.delete[#211749#127070]
  * 8.Что такое валидация?[#246864]
  *
  * @version 3
  * @since 12.09.2021
  */
-public class Tracker {
+public class MemTracker implements Store {
     private final List<Item> items = new ArrayList<>();
     private int ids = 1;
 
@@ -25,6 +26,7 @@ public class Tracker {
      * @param item Item
      * @return Item
      */
+    @Override
     public Item add(Item item) {
         item.setId(ids++);
         items.add(item);
@@ -36,6 +38,7 @@ public class Tracker {
      *
      * @return Item[]
      */
+    @Override
     public List<Item> findAll() {
         return items;
     }
@@ -46,6 +49,7 @@ public class Tracker {
      * @param key String
      * @return Item[]
      */
+    @Override
     public List<Item> findByName(String key) {
         List<Item> itemNames = new ArrayList<>();
         for (Item item : items) {
@@ -62,6 +66,7 @@ public class Tracker {
      * @param id int
      * @return Item
      */
+    @Override
     public Item findById(int id) {
         int index = indexOf(id);
         return index != -1 ? items.get(index) : null;
@@ -74,6 +79,7 @@ public class Tracker {
      * @param item new Item
      * @return boolean result
      */
+    @Override
     public boolean replace(int id, Item item) {
         int index = indexOf(id);
         boolean rsl = index != -1;
@@ -86,11 +92,12 @@ public class Tracker {
     }
 
     /**
-     * 7.Метод удаления заявки Tracker.delete[#211749#127070]
+     * 7.Метод удаления заявки MemTracker.delete[#211749#127070]
      *
      * @param id int Item
      * @return boolean
      */
+    @Override
     public boolean delete(int id) {
         int index = indexOf(id);
         boolean rsl = index != -1;

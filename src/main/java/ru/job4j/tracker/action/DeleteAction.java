@@ -2,7 +2,8 @@ package ru.job4j.tracker.action;
 
 import ru.job4j.tracker.input.Input;
 import ru.job4j.tracker.output.Output;
-import ru.job4j.tracker.Tracker;
+import ru.job4j.tracker.MemTracker;
+import ru.job4j.tracker.store.Store;
 
 /**
  * 1.2.4.Полиморфизм
@@ -34,11 +35,11 @@ public class DeleteAction implements UserAction {
      * menu 3
      *
      * @param input   Input
-     * @param tracker Tracker
+     * @param tracker Store
      * @return boolean
      */
     @Override
-    public boolean execute(Input input, Tracker tracker) {
+    public boolean execute(Input input, Store tracker) {
         out.println("=== Delete Item ===");
         int id = input.askInt("Enter id: ");
         if (tracker.delete(id)) {

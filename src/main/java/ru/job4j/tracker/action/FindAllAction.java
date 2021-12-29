@@ -3,7 +3,8 @@ package ru.job4j.tracker.action;
 import ru.job4j.tracker.input.Input;
 import ru.job4j.tracker.model.Item;
 import ru.job4j.tracker.output.Output;
-import ru.job4j.tracker.Tracker;
+import ru.job4j.tracker.MemTracker;
+import ru.job4j.tracker.store.Store;
 
 import java.util.List;
 
@@ -37,11 +38,11 @@ public class FindAllAction implements UserAction {
      * menu 1
      *
      * @param input   Input
-     * @param tracker Tracker
+     * @param tracker Sracker
      * @return boolean
      */
     @Override
-    public boolean execute(Input input, Tracker tracker) {
+    public boolean execute(Input input, Store tracker) {
         out.println("=== Show all items ===");
         List<Item> items = tracker.findAll();
         if (items.size() > 0) {

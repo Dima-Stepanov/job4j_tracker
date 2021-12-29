@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.job4j</groupId>
-    <artifactId>tracker</artifactId>
+    <artifactId>memTracker</artifactId>
     <version>1</version>
     <packaging>jar</packaging>
 
@@ -16,6 +16,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.3.1</version>
+        </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
@@ -47,11 +52,11 @@
                                 <goal>shade</goal>
                             </goals>
                             <configuration>
-                                <finalName>tracker</finalName>
+                                <finalName>memTracker</finalName>
                                 <transformers>
                                     <transformer
                                             implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                        <mainClass>ru.job4j.tracker.StartUI</mainClass>
+                                        <mainClass>ru.job4j.memTracker.StartUI</mainClass>
                                     </transformer>
                                 </transformers>
                             </configuration>

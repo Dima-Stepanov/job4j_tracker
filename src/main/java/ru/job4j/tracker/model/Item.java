@@ -51,6 +51,10 @@ public class Item implements Comparable<Item> {
         return created;
     }
 
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -70,10 +74,8 @@ public class Item implements Comparable<Item> {
 
     @Override
     public String toString() {
-        return "Item{" + "id=" + id
-                + ", name='" + name + '\''
-                + ", created=" + created.format(timeFormatter)
-                + '}';
+        return String.format("id: %s, name: %s, created: %s",
+                id, name, timeFormatter.format(created));
     }
 
     @Override

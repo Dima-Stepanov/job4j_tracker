@@ -35,11 +35,11 @@ public class StartUITest {
     public void whenAddItem() {
         String[] answers = {"Fix PC"};
         Input input = new StudInput(answers);
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         Output output = new ConsoleOutput();
         CreateAction createAction = new CreateAction(output);
-        createAction.execute(input, tracker);
-        Item created = tracker.findAll().get(0);
+        createAction.execute(input, memTracker);
+        Item created = memTracker.findAll().get(0);
         Item expected = new Item("Fix PC");
         assertThat(created.getName(), is(expected.getName()));
     }
@@ -48,13 +48,13 @@ public class StartUITest {
     public void whenAddItem2Element() {
         String[] answers = {"First", "Second"};
         Input input = new StudInput(answers);
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         Output output = new ConsoleOutput();
         CreateAction createAction = new CreateAction(output);
-        createAction.execute(input, tracker);
-        createAction.execute(input, tracker);
-        Item created0 = tracker.findAll().get(0);
-        Item created1 = tracker.findAll().get(1);
+        createAction.execute(input, memTracker);
+        createAction.execute(input, memTracker);
+        Item created0 = memTracker.findAll().get(0);
+        Item created1 = memTracker.findAll().get(1);
         Item expected0 = new Item("First");
         Item expected1 = new Item("Second");
         assertThat(created0.getName(), is(expected0.getName()));
@@ -63,9 +63,9 @@ public class StartUITest {
 
     @Test
     public void whenReplaceItem() {
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         Item item = new Item("new item");
-        tracker.add(item);
+        memTracker.add(item);
         String[] answer = {
                 String.valueOf(item.getId()),
                 "replace item"
@@ -73,23 +73,23 @@ public class StartUITest {
         Input input = new StudInput(answer);
         Output out = new ConsoleOutput();
         ReplaceAction replaceAction = new ReplaceAction(out);
-        replaceAction.execute(input, tracker);
-        Item replaced = tracker.findById(item.getId());
+        replaceAction.execute(input, memTracker);
+        Item replaced = memTracker.findById(item.getId());
         assertThat(replaced.getName(), is("replace item"));
     }
 
     @Test
     public void whenDeleteItem() {
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         Item item = new Item("delete ietm");
-        tracker.add(item);
+        memTracker.add(item);
         int idItem = item.getId();
         String[] answer = {String.valueOf(idItem)};
         Input input = new StudInput(answer);
         Output output = new ConsoleOutput();
         DeleteAction deleteAction = new DeleteAction(output);
-        deleteAction.execute(input, tracker);
-        Assert.assertNull(tracker.findById(idItem));
+        deleteAction.execute(input, memTracker);
+        Assert.assertNull(memTracker.findById(idItem));
     }
 
     @Test
@@ -97,14 +97,14 @@ public class StartUITest {
         Input input = new StudInput(
                 new String[]{"0", "Item name", "1"}
         );
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         Output output = new ConsoleOutput();
         List<UserAction> actions = List.of(
                 new CreateAction(output),
                 new ExitAction()
         );
-        new StartUI(output).init(input, tracker, actions);
-        assertThat(tracker.findAll().get(0).getName(), is("Item name"));
+        new StartUI(output).init(input, memTracker, actions);
+        assertThat(memTracker.findAll().get(0).getName(), is("Item name"));
     }
 
     @Test
@@ -112,16 +112,16 @@ public class StartUITest {
         Input input = new StudInput(
                 new String[]{"0", "1", "Replace Item", "1"}
         );
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         Output output = new ConsoleOutput();
         List<UserAction> actions = List.of(
                 new ReplaceAction(output),
                 new ExitAction()
         );
         Item item = new Item("Item");
-        tracker.add(item);
-        new StartUI(output).init(input, tracker, actions);
-        assertThat(tracker.findById(item.getId()).getName(), is("Replace Item"));
+        memTracker.add(item);
+        new StartUI(output).init(input, memTracker, actions);
+        assertThat(memTracker.findById(item.getId()).getName(), is("Replace Item"));
     }
 
     @Test
@@ -132,11 +132,11 @@ public class StartUITest {
                 new DeleteAction(output),
                 new ExitAction()
         );
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         Item item = new Item("Item");
-        tracker.add(item);
-        new StartUI(output).init(input, tracker, action);
-        Assert.assertNull(tracker.findById(item.getId()));
+        memTracker.add(item);
+        new StartUI(output).init(input, memTracker, action);
+        Assert.assertNull(memTracker.findById(item.getId()));
     }
 
     @Test
@@ -145,9 +145,9 @@ public class StartUITest {
         Input input = new StudInput(
                 new String[]{"0"}
         );
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         List<UserAction> actions = List.of(new ExitAction());
-        new StartUI(out).init(input, tracker, actions);
+        new StartUI(out).init(input, memTracker, actions);
         assertThat(out.toString(), is(
                 "Menu:" + System.lineSeparator()
                         + "0. Exit Program" + System.lineSeparator()
@@ -160,12 +160,12 @@ public class StartUITest {
         Input in = new StudInput(
                 new String[]{"0", "1"}
         );
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         List<UserAction> actions = List.of(
                 new FindAllAction(out),
                 new ExitAction()
         );
-        new StartUI(out).init(in, tracker, actions);
+        new StartUI(out).init(in, memTracker, actions);
         assertThat(out.toString(), is(
                 "Menu:" + System.lineSeparator()
                         + "0. Show all items" + System.lineSeparator()
@@ -188,8 +188,8 @@ public class StartUITest {
                 new FindByNameAction(out),
                 new ExitAction()
         );
-        Tracker tracker = new Tracker();
-        new StartUI(out).init(input, tracker, action);
+        MemTracker memTracker = new MemTracker();
+        new StartUI(out).init(input, memTracker, action);
         assertThat(out.toString(), is(
                 "Menu:" + System.lineSeparator()
                         + "0. Find items by name" + System.lineSeparator()
@@ -208,12 +208,12 @@ public class StartUITest {
         Input input = new StudInput(
                 new String[]{"0", "11", "1"}
         );
-        Tracker tracker = new Tracker();
+        MemTracker memTracker = new MemTracker();
         List<UserAction> action = List.of(
                 new FindByIDAction(out),
                 new ExitAction()
         );
-        new StartUI(out).init(input, tracker, action);
+        new StartUI(out).init(input, memTracker, action);
         assertThat(out.toString(), is(
                 "Menu:" + System.lineSeparator()
                         + "0. Find item by id" + System.lineSeparator()
@@ -233,8 +233,8 @@ public class StartUITest {
         List<UserAction> actions = List.of(
                 new ExitAction()
         );
-        Tracker tracker = new Tracker();
-        new StartUI(out).init(in, tracker, actions);
+        MemTracker memTracker = new MemTracker();
+        new StartUI(out).init(in, memTracker, actions);
         String ln = System.lineSeparator();
         assertThat(out.toString(), is(
                 "Menu:" + ln
