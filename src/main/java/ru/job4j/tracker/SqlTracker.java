@@ -82,7 +82,7 @@ public class SqlTracker implements Store, AutoCloseable {
     public boolean replace(int id, Item item) {
         boolean result = false;
         try (PreparedStatement statement = connection.prepareStatement(
-                "update users set name = ?, created = ? where id = ?")) {
+                "update items set name = ?, created = ? where id = ?")) {
             statement.setString(1, item.getName());
             statement.setTimestamp(2, Timestamp.valueOf(item.getCreated()));
             statement.setInt(3, id);
@@ -103,7 +103,7 @@ public class SqlTracker implements Store, AutoCloseable {
     public boolean delete(int id) {
         boolean result = false;
         try (PreparedStatement statement = connection.prepareStatement(
-                "delete from users where id = ?")) {
+                "delete from items where id = ?")) {
             statement.setInt(1, id);
             result = statement.executeUpdate() > 0;
         } catch (Exception e) {
@@ -121,7 +121,7 @@ public class SqlTracker implements Store, AutoCloseable {
     public List<Item> findAll() {
         List<Item> items = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(
-                "select * from users")) {
+                "select * from items")) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Item item = new Item(
@@ -148,7 +148,7 @@ public class SqlTracker implements Store, AutoCloseable {
     public List<Item> findByName(String key) {
         List<Item> items = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(
-                "select * from users where name = ?")) {
+                "select * from items where name = ?")) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Item item = new Item(
@@ -175,7 +175,7 @@ public class SqlTracker implements Store, AutoCloseable {
     public Item findById(int id) {
         Item item = null;
         try (PreparedStatement statement = connection.prepareStatement(
-                "select * from user where id = ?")) {
+                "select * from items where id = ?")) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     item.setId(resultSet.getInt("id"));
