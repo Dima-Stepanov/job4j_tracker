@@ -1,4 +1,6 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.output;
+
+import ru.job4j.tracker.output.Output;
 
 /**
  * 1.2.4.Полиморфизм
@@ -13,7 +15,7 @@ public class StudOutput implements Output {
     @Override
     public void println(Object obj) {
         if (obj != null) {
-            buffer.append(obj.toString());
+            buffer.append(obj);
         } else {
             buffer.append("null");
         }

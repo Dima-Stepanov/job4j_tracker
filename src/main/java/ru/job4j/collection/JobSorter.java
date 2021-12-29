@@ -1,6 +1,6 @@
 package ru.job4j.collection;
 
-import ru.job4j.tracker.Item;
+import ru.job4j.tracker.model.Item;
 import ru.job4j.tracker.ItemSortByName;
 
 import java.util.Arrays;

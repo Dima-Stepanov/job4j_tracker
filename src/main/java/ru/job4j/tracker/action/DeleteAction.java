@@ -1,19 +1,21 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.action;
 
-import java.util.List;
+import ru.job4j.tracker.input.Input;
+import ru.job4j.tracker.output.Output;
+import ru.job4j.tracker.Tracker;
 
 /**
  * 1.2.4.Полиморфизм
  * 8.Реализация меню за счет шаблона стратегия.[#181780#127032]
  * 9.1.Зависимость от System.out[#33568#127018]
- * 1 Show all items
+ * 3 Delete item
  *
  * @since 16.09.2021
  */
-public class FindAllAction implements UserAction {
+public class DeleteAction implements UserAction {
     private final Output out;
 
-    public FindAllAction(Output out) {
+    public DeleteAction(Output out) {
         this.out = out;
     }
 
@@ -24,12 +26,12 @@ public class FindAllAction implements UserAction {
      */
     @Override
     public String name() {
-        return "Show all items";
+        return "Delete item";
     }
 
     /**
-     * FindAllItem
-     * menu 1
+     * Delete Item
+     * menu 3
      *
      * @param input   Input
      * @param tracker Tracker
@@ -37,14 +39,12 @@ public class FindAllAction implements UserAction {
      */
     @Override
     public boolean execute(Input input, Tracker tracker) {
-        out.println("=== Show all items ===");
-        List<Item> items = tracker.findAll();
-        if (items.size() > 0) {
-            for (Item item : items) {
-                out.println(item);
-            }
+        out.println("=== Delete Item ===");
+        int id = input.askInt("Enter id: ");
+        if (tracker.delete(id)) {
+            out.println("Заявка удалена успешно.");
         } else {
-            out.println("Хранилище еще не содержит заявок");
+            out.println("Ошибка удаления заявки.");
         }
         return true;
     }
