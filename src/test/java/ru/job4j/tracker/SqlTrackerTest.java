@@ -125,9 +125,7 @@ public class SqlTrackerTest {
         Item item2 = new Item("item2");
         tracker.add(item1);
         tracker.add(item2);
-        List<Item> expected = List.of(item1, item2);
-        List<Item> result = tracker.findAll();
-        assertThat(result, is(expected));
+        assertThat(tracker.findAll(), is(List.of(item1, item2)));
     }
 
     @Test
@@ -137,9 +135,7 @@ public class SqlTrackerTest {
         Item item1 = new Item("item1");
         tracker.add(item);
         tracker.add(item1);
-        List<Item> expected = List.of(item);
-        List<Item> result = tracker.findByName("item");
-        assertThat(result, is(expected));
+        assertThat(tracker.findByName("item"), is(List.of(item)));
     }
 
     @Test
@@ -149,9 +145,7 @@ public class SqlTrackerTest {
         Item item1 = new Item("item");
         tracker.add(item);
         tracker.add(item1);
-        List<Item> expected = List.of(item, item1);
-        List<Item> result = tracker.findByName("item");
-        assertThat(result, is(expected));
+        assertThat(tracker.findByName("item"), is(List.of(item, item1)));
     }
 
     @Test
