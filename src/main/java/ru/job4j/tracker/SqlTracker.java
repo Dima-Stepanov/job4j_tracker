@@ -25,12 +25,17 @@ public class SqlTracker implements Store {
     private Connection connection;
 
     public SqlTracker() {
+        init();
+    }
+
+    public SqlTracker(Connection connection) {
+        this.connection = connection;
     }
 
     /**
      * Подключение к базе данных
      */
-    public void init() {
+    private void init() {
         try (InputStream in =
                      SqlTracker.class.getClassLoader().getResourceAsStream("app.properties")) {
             Properties config = new Properties();

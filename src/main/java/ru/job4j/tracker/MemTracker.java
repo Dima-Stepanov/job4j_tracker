@@ -72,10 +72,6 @@ public class MemTracker implements Store {
         return index != -1 ? items.get(index) : null;
     }
 
-    @Override
-    public void init() {
-    }
-
     /**
      * Замена заявки по ID
      *

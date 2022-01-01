@@ -15,7 +15,7 @@ import java.util.Objects;
 public class Item implements Comparable<Item> {
     private int id;
     private String name;
-    private LocalDateTime created = LocalDateTime.now();
+    private LocalDateTime created = LocalDateTime.now().withNano(0);
     private final DateTimeFormatter
             timeFormatter = DateTimeFormatter.ofPattern("dd-MMMM-EEEE-yyyy HH:mm:ss");
 
@@ -64,7 +64,9 @@ public class Item implements Comparable<Item> {
             return false;
         }
         Item item = (Item) o;
-        return id == item.id && Objects.equals(name, item.name);
+        return id == item.id
+                && Objects.equals(name, item.name)
+                && Objects.equals(created, item.created);
     }
 
     @Override
