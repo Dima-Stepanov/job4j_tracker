@@ -5,6 +5,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.job4j.tracker.model.Item;
+import ru.job4j.tracker.store.SqlTracker;
 
 import java.io.InputStream;
 import java.sql.Connection;
