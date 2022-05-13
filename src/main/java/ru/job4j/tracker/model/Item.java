@@ -20,6 +20,8 @@ public class Item implements Comparable<Item> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+
+    private String description;
     private LocalDateTime created = LocalDateTime.now().withNano(0);
     @Transient
     private final DateTimeFormatter
@@ -35,6 +37,13 @@ public class Item implements Comparable<Item> {
     public Item(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public static Item of(String name, String description) {
+        Item item = new Item();
+        item.name = name;
+        item.description = description;
+        return item;
     }
 
     public int getId() {
@@ -59,6 +68,14 @@ public class Item implements Comparable<Item> {
 
     public void setCreated(LocalDateTime created) {
         this.created = created;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public DateTimeFormatter getTimeFormatter() {

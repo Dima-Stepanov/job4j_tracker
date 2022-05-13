@@ -28,8 +28,10 @@ public class HibernateRun {
             SessionFactory sessionFactory = new MetadataSources(registry)
                     .buildMetadata()
                     .buildSessionFactory();
-            Item item = create(new Item("Learn Hibernate"), sessionFactory);
+            Item item = create(Item.of("Item1", "description Item1"), sessionFactory);
+            Item item1 = create(Item.of("Item2", "descripto Item2"), sessionFactory);
             System.out.println("create: " + item);
+            System.out.println("create2: " + item1);
             item.setName("Learn Hibernate 5.");
             update(item, sessionFactory);
             System.out.println("update: " + item);
