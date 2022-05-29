@@ -2,12 +2,14 @@ package ru.job4j.tracker.store;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import ru.job4j.tracker.model.Item;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * 3. Мидл
@@ -26,80 +28,75 @@ public class HbmTracker implements Store {
 
     @Override
     public Item add(Item item) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.save(item);
-        session.getTransaction().commit();
-        session.close();
-        return item;
+        return tx(session -> {
+            session.save(item);
+            return item;
+        });
     }
 
     @Override
     public boolean replace(int id, Item item) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        int result = session.createQuery("update ru.job4j.tracker.model.Item "
-                        + "set name = :nameItem, created = :createdItem "
-                        + "where id = :idItem")
-                .setParameter("nameItem", item.getName())
-                .setParameter("createdItem", item.getCreated())
-                .setParameter("idItem", id)
-                .executeUpdate();
-        session.getTransaction().commit();
-        session.close();
-        return result > 0;
+        return tx(session ->
+                session.createQuery("update Item "
+                                + "set name = :nameItem, created = :createdItem "
+                                + "where id = :idItem")
+                        .setParameter("nameItem", item.getName())
+                        .setParameter("createdItem", item.getCreated())
+                        .setParameter("idItem", id)
+                        .executeUpdate() > 0
+        );
     }
 
     @Override
     public boolean delete(int id) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        int result = session.createQuery("delete ru.job4j.tracker.model.Item "
+        return tx(session -> session.createQuery("delete Item "
                         + "where id = :idItem")
                 .setParameter("idItem", id)
-                .executeUpdate();
-        session.getTransaction().commit();
-        session.close();
-        return result > 0;
+                .executeUpdate() > 0);
     }
 
     @Override
     public List<Item> findAll() {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        List result = session
-                .createQuery("from ru.job4j.tracker.model.Item")
-                .list();
-        session.getTransaction().commit();
-        session.close();
-        return result;
+        return tx(session -> session
+                .createQuery("from Item")
+                .list());
     }
 
     @Override
     public List<Item> findByName(String key) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        List result = session
-                .createQuery("from ru.job4j.tracker.model.Item where name = :nameItem")
+        return tx(session -> session
+                .createQuery("from Item where name =: nameItem")
                 .setParameter("nameItem", key)
-                .list();
-        session.getTransaction().commit();
-        session.close();
-        return result;
+                .list());
     }
 
     @Override
     public Item findById(int id) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        Item result = session.get(ru.job4j.tracker.model.Item.class, id);
-        session.getTransaction().commit();
-        session.close();
-        return result;
+        return tx(session -> session.get(Item.class, id));
     }
 
     @Override
     public void close() throws Exception {
         StandardServiceRegistryBuilder.destroy(registry);
+    }
+
+    /**
+     * Шаблон проектирования WRAPPER.
+     *
+     * @param command Function
+     * @param <T>     T
+     * @return T
+     */
+    private <T> T tx(final Function<Session, T> command) {
+        final Session session = sessionFactory.openSession();
+        final Transaction tx = session.beginTransaction();
+        try (session) {
+            T rsl = command.apply(session);
+            tx.commit();
+            return rsl;
+        } catch (final Exception e) {
+            tx.rollback();
+            throw e;
+        }
     }
 }

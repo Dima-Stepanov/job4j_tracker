@@ -5,6 +5,7 @@
       <persistence-unit name="Default">
         <packages>
           <package value="" />
+          <package value="ru.job4j.tracker.model" />
         </packages>
       </persistence-unit>
     </persistence-units>
