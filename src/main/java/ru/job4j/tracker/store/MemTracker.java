@@ -44,6 +44,18 @@ public class MemTracker implements Store {
     }
 
     /**
+     * Вернуть все заявки в реактивном стиле.
+     *
+     * @param observe Observe
+     */
+    @Override
+    public void findAll(Observe<Item> observe) {
+        for (Item item : items) {
+            observe.receive(item);
+        }
+    }
+
+    /**
      * 1.Получение списка по имени
      *
      * @param key String

@@ -63,6 +63,14 @@ public class HbmTracker implements Store {
     }
 
     @Override
+    public void findAll(Observe<Item> observe) {
+        List<Item> lists = tx(session -> session
+                .createQuery("from Item ")
+                .list());
+        lists.forEach(observe::receive);
+    }
+
+    @Override
     public List<Item> findByName(String key) {
         return tx(session -> session
                 .createQuery("from Item where name =: nameItem")

@@ -7,6 +7,7 @@ import ru.job4j.tracker.input.ValidateInput;
 import ru.job4j.tracker.output.ConsoleOutput;
 import ru.job4j.tracker.output.Output;
 import ru.job4j.tracker.store.MemTracker;
+import ru.job4j.tracker.store.SqlTracker;
 import ru.job4j.tracker.store.Store;
 
 import java.util.List;
@@ -80,7 +81,7 @@ public class StartUI {
     public static void main(String[] args) {
         Output output = new ConsoleOutput();
         Input input = new ValidateInput(output, new ConsoleInput());
-        try (Store tracker = new MemTracker()) {
+        try (Store tracker = new SqlTracker()) {
             List<UserAction> actions = List.of(
                     new CreateAction(output),
                     new FindAllAction(output),

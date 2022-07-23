@@ -128,13 +128,32 @@ public class SqlTracker implements Store {
                 "select * from items")) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    items.add(getResultSet(resultSet));
+                    items.add(getItemByResultSet(resultSet));
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return items;
+    }
+
+    /**
+     * Отображение всех заявок в реактивном стиле WebFlux.
+     *
+     * @param observe Observe
+     */
+    @Override
+    public void findAll(Observe<Item> observe) {
+        try (PreparedStatement statement = connection.prepareStatement(
+                "select * from items")) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    observe.receive(getItemByResultSet(resultSet));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -151,7 +170,7 @@ public class SqlTracker implements Store {
             statement.setString(1, key);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    items.add(getResultSet(resultSet));
+                    items.add(getItemByResultSet(resultSet));
                 }
             }
         } catch (Exception e) {
@@ -174,7 +193,7 @@ public class SqlTracker implements Store {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    item = getResultSet(resultSet);
+                    item = getItemByResultSet(resultSet);
                 }
             }
         } catch (Exception e) {
@@ -183,7 +202,7 @@ public class SqlTracker implements Store {
         return item;
     }
 
-    private Item getResultSet(ResultSet resultSet) throws SQLException {
+    private Item getItemByResultSet(ResultSet resultSet) throws SQLException {
         Item item = new Item(
                 resultSet.getInt("id"),
                 resultSet.getString("name"));
