@@ -31,10 +31,10 @@ public class Item implements Comparable<Item> {
     @EqualsAndHashCode.Include
     private String name;
     private String description;
-    private LocalDateTime created = LocalDateTime.now().withNano(0);
+    private LocalDateTime created = LocalDateTime.now().withSecond(0).withNano(0);
     @Transient
     private final DateTimeFormatter
-            timeFormatter = DateTimeFormatter.ofPattern("dd-MMMM-EEEE-yyyy HH:mm:ss");
+            timeFormatter = DateTimeFormatter.ofPattern("dd-MMMM-EEEE-yyyy HH:mm");
 
     @Override
     public int compareTo(Item another) {
