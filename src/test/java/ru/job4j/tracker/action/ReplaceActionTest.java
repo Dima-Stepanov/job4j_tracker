@@ -29,7 +29,9 @@ public class ReplaceActionTest {
     public void whenReplaceActionMockitoThenReplaceOk() {
         Output output = new StudOutput();
         MemTracker tracker = new MemTracker();
-        tracker.add(new Item("Replaced item"));
+        Item item = new Item();
+        item.setName("Replaced item");
+        tracker.add(item);
         String replaceName = "New item name";
         ReplaceAction rep = new ReplaceAction(output);
         Input input = mock(Input.class);
@@ -46,7 +48,9 @@ public class ReplaceActionTest {
     public void whenReplaceActionMockitoThenReplaceFail() {
         Output output = new StudOutput();
         MemTracker tracker = new MemTracker();
-        tracker.add(new Item("Replaced item"));
+        Item item = new Item();
+        item.setName("Replaced item");
+        tracker.add(item);
         String replaceName = "New item name";
         ReplaceAction rep = new ReplaceAction(output);
         Input input = mock(Input.class);

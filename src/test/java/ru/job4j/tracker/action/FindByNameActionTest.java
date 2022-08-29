@@ -29,8 +29,12 @@ public class FindByNameActionTest {
     public void whenFindByNameMockitoThenOk() {
         Output output = new StudOutput();
         MemTracker tracker = new MemTracker();
-        tracker.add(new Item("item id 1"));
-        tracker.add(new Item("item id 2"));
+        Item item1 = new Item();
+        item1.setName("item id 1");
+        Item item2 = new Item();
+        item2.setName("item id 2");
+        tracker.add(item1);
+        tracker.add(item2);
         FindByNameAction find = new FindByNameAction(output);
         Input input = mock(Input.class);
         when(input.askStr(any(String.class))).thenReturn("item id 2");
@@ -44,8 +48,12 @@ public class FindByNameActionTest {
     public void whenFindByNameMockitoThenFail() {
         Output output = new StudOutput();
         MemTracker tracker = new MemTracker();
-        tracker.add(new Item("item id 1"));
-        tracker.add(new Item("item id 2"));
+        Item item1 = new Item();
+        item1.setName("item id 1");
+        Item item2 = new Item();
+        item2.setName("item id 2");
+        tracker.add(item1);
+        tracker.add(item2);
         FindByNameAction find = new FindByNameAction(output);
         Input input = mock(Input.class);
         String findName = "not found";

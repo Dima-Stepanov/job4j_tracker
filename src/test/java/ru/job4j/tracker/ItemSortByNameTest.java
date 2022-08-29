@@ -1,5 +1,6 @@
 package ru.job4j.tracker;
 
+import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.tracker.model.Item;
 
@@ -16,38 +17,51 @@ import static org.hamcrest.Matchers.is;
  * @since 27.09.2021
  */
 public class ItemSortByNameTest {
+    private final Item itemA = new Item();
+    private final Item itemB = new Item();
+    private final Item itemC = new Item();
+    private final Item itemZ = new Item();
+
+    @Before
+    public void createItem() {
+        itemA.setName("A");
+        itemB.setName("B");
+        itemC.setName("C");
+        itemZ.setName("Z");
+    }
+
     @Test
     public void whenItemSortByName() {
         List<Item> items = Arrays.asList(
-                new Item("B"),
-                new Item("C"),
-                new Item("Z"),
-                new Item("A")
+                itemB,
+                itemC,
+                itemZ,
+                itemA
         );
         items.sort(new ItemSortByName());
         List<Item> expected = Arrays.asList(
-                new Item("A"),
-                new Item("B"),
-                new Item("C"),
-                new Item("Z")
+                itemA,
+                itemB,
+                itemC,
+                itemZ
         );
         assertThat(items, is(expected));
     }
 
     @Test
-    public void whenItemSortByNameRevesed() {
+    public void whenItemSortByNameReversed() {
         List<Item> items = Arrays.asList(
-                new Item("B"),
-                new Item("C"),
-                new Item("Z"),
-                new Item("A")
+                itemB,
+                itemC,
+                itemZ,
+                itemA
         );
         items.sort(new ItemSortByNameRevesed());
         List<Item> expected = Arrays.asList(
-                new Item("Z"),
-                new Item("C"),
-                new Item("B"),
-                new Item("A")
+                itemZ,
+                itemC,
+                itemB,
+                itemA
         );
         assertThat(items, is(expected));
     }

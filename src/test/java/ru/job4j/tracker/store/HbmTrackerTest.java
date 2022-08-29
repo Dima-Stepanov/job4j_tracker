@@ -30,14 +30,17 @@ public class HbmTrackerTest {
 
     @Test
     public void whenAdd() {
-        Item item = new Item("item");
+        Item item = new Item();
+        item.setName("item");
         hbmTracker.add(item);
-        assertThat(item, is(hbmTracker.findById(item.getId())));
+        Item expect = hbmTracker.findById(item.getId());
+        assertThat(item, is(expect));
     }
 
     @Test
     public void whenReplaceThenTrue() {
-        Item item = new Item("item");
+        Item item = new Item();
+        item.setName("item");
         hbmTracker.add(item);
         item.setName("new Item");
         item.setDescription("test item replace");
@@ -48,7 +51,8 @@ public class HbmTrackerTest {
 
     @Test
     public void whenReplaceThenFalse() {
-        Item item = new Item("item");
+        Item item = new Item();
+        item.setName("item");
         hbmTracker.add(item);
         item.setName("new Item");
         item.setDescription("test item replace");
@@ -58,7 +62,8 @@ public class HbmTrackerTest {
 
     @Test
     public void whenDeleteTrue() {
-        Item item = new Item("item");
+        Item item = new Item();
+        item.setName("item");
         hbmTracker.add(item);
         boolean result = hbmTracker.delete(item.getId());
         assertTrue(result);
@@ -73,8 +78,10 @@ public class HbmTrackerTest {
 
     @Test
     public void whenFindAllThenTwoItem() {
-        Item item = new Item("item1");
-        Item item1 = new Item("item2");
+        Item item = new Item();
+        item.setName("item1");
+        Item item1 = new Item();
+        item.setName("item2");
         hbmTracker.add(item);
         hbmTracker.add(item1);
         List<Item> expected = List.of(item, item1);
@@ -90,19 +97,25 @@ public class HbmTrackerTest {
 
     @Test
     public void whenFindByNameThenListTwoItem() {
-        Item item = new Item("item");
-        Item item1 = new Item("item");
+        Item item = new Item();
+        item.setName("item");
+        Item item1 = new Item();
+        item1.setName("item");
         hbmTracker.add(item);
         hbmTracker.add(item1);
         List<Item> expected = List.of(item, item1);
         List<Item> result = hbmTracker.findByName(item.getName());
+        System.out.println(expected);
+        System.out.println(result);
         assertThat(expected, is(result));
     }
 
     @Test
     public void whenFindByNameThenListOneItem() {
-        Item item = new Item("item");
-        Item item1 = new Item("item1");
+        Item item = new Item();
+        item.setName("item");
+        Item item1 = new Item();
+        item1.setName("item1");
         hbmTracker.add(item);
         hbmTracker.add(item1);
         List<Item> expected = List.of(item);
@@ -112,7 +125,8 @@ public class HbmTrackerTest {
 
     @Test
     public void whenFindById() {
-        Item item = new Item("item");
+        Item item = new Item();
+        item.setName("item");
         hbmTracker.add(item);
         Item result = hbmTracker.findById(item.getId());
         assertThat(item, is(result));

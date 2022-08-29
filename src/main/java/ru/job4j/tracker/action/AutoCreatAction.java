@@ -42,7 +42,8 @@ public class AutoCreatAction implements UserAction {
         out.println("=== Auto Create new Item ===");
         int size = input.askInt("Enter number of new Item:");
         for (int i = 1; i < size; i++) {
-            Item item = new Item("name_" + i);
+            Item item = new Item();
+            item.setName("name_" + i);
             tracker.add(item);
             out.println("Добавление заявки: " + item);
         }

@@ -41,7 +41,8 @@ public class StartUITest {
         CreateAction createAction = new CreateAction(output);
         createAction.execute(input, memTracker);
         Item created = memTracker.findAll().get(0);
-        Item expected = new Item("Fix PC");
+        Item expected = new Item();
+        expected.setName("Fix PC");
         assertThat(created.getName(), is(expected.getName()));
     }
 
@@ -56,8 +57,10 @@ public class StartUITest {
         createAction.execute(input, memTracker);
         Item created0 = memTracker.findAll().get(0);
         Item created1 = memTracker.findAll().get(1);
-        Item expected0 = new Item("First");
-        Item expected1 = new Item("Second");
+        Item expected0 = new Item();
+        expected0.setName("First");
+        Item expected1 = new Item();
+        expected1.setName("Second");
         assertThat(created0.getName(), is(expected0.getName()));
         assertThat(created1.getName(), is(expected1.getName()));
     }
@@ -65,7 +68,8 @@ public class StartUITest {
     @Test
     public void whenReplaceItem() {
         MemTracker memTracker = new MemTracker();
-        Item item = new Item("new item");
+        Item item = new Item();
+        item.setName("new item");
         memTracker.add(item);
         String[] answer = {
                 String.valueOf(item.getId()),
@@ -82,7 +86,8 @@ public class StartUITest {
     @Test
     public void whenDeleteItem() {
         MemTracker memTracker = new MemTracker();
-        Item item = new Item("delete ietm");
+        Item item = new Item();
+        item.setName("delete item");
         memTracker.add(item);
         int idItem = item.getId();
         String[] answer = {String.valueOf(idItem)};
@@ -119,7 +124,8 @@ public class StartUITest {
                 new ReplaceAction(output),
                 new ExitAction()
         );
-        Item item = new Item("Item");
+        Item item = new Item();
+        item.setName("Item");
         memTracker.add(item);
         new StartUI(output).init(input, memTracker, actions);
         assertThat(memTracker.findById(item.getId()).getName(), is("Replace Item"));
@@ -134,7 +140,8 @@ public class StartUITest {
                 new ExitAction()
         );
         MemTracker memTracker = new MemTracker();
-        Item item = new Item("Item");
+        Item item = new Item();
+        item.setName("Item");
         memTracker.add(item);
         new StartUI(output).init(input, memTracker, action);
         Assert.assertNull(memTracker.findById(item.getId()));

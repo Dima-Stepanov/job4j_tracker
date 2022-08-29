@@ -33,7 +33,8 @@ public class TrackerTest {
     @Test
     public void whenTestFindById() {
         MemTracker memTracker = new MemTracker();
-        Item bug = new Item("Bug");
+        Item bug = new Item();
+        bug.setName("Bug");
         Item item = memTracker.add(bug);
         Item result = memTracker.findById(item.getId());
         assertThat(result.getName(), is(item.getName()));
@@ -42,8 +43,10 @@ public class TrackerTest {
     @Test
     public void whenTestFindAll() {
         MemTracker memTracker = new MemTracker();
-        Item first = new Item("First");
-        Item second = new Item("Second");
+        Item first = new Item();
+        first.setName("First");
+        Item second = new Item();
+        second.setName("Second");
         memTracker.add(second);
         memTracker.add(first);
         Item result = memTracker.findAll().get(0);
@@ -53,13 +56,18 @@ public class TrackerTest {
     @Test
     public void whenTestFindByNameCheckArrayLength() {
         MemTracker memTracker = new MemTracker();
-        Item first = new Item("First");
-        Item second = new Item("Second");
+        Item first = new Item();
+        first.setName("First");
+        Item first1 = new Item();
+        first1.setName("First");
+        Item first2 = new Item();
+        first2.setName("First");
+        Item second = new Item();
+        second.setName("Second");
         memTracker.add(first);
         memTracker.add(second);
-        memTracker.add(new Item("First"));
-        memTracker.add(new Item("Second"));
-        memTracker.add(new Item("First"));
+        memTracker.add(first1);
+        memTracker.add(first2);
         List<Item> result = memTracker.findByName(first.getName());
         assertThat(result.size(), is(3));
     }
@@ -67,13 +75,21 @@ public class TrackerTest {
     @Test
     public void whenTestFindByNameCheckSecondItemName() {
         MemTracker memTracker = new MemTracker();
-        Item first = new Item("First");
-        Item second = new Item("Second");
+        Item first = new Item();
+        first.setName("First");
+        Item first1 = new Item();
+        first1.setName("First");
+        Item first2 = new Item();
+        first2.setName("First");
+        Item second = new Item();
+        second.setName("Second");
+        Item second1 = new Item();
+        second1.setName("Second");
         memTracker.add(first);
         memTracker.add(second);
-        memTracker.add(new Item("First"));
-        memTracker.add(new Item("Second"));
-        memTracker.add(new Item("First"));
+        memTracker.add(first1);
+        memTracker.add(second1);
+        memTracker.add(first2);
         List<Item> result = memTracker.findByName(second.getName());
         assertThat(result.get(1).getName(), is(second.getName()));
     }
@@ -92,9 +108,10 @@ public class TrackerTest {
     }
 
     @Test
-    public void whenDeleta() {
+    public void whenDelete() {
         MemTracker memTracker = new MemTracker();
-        Item bug = new Item("bug");
+        Item bug = new Item();
+        bug.setName("Bug");
         memTracker.add(bug);
         int id = bug.getId();
         memTracker.delete(id);
@@ -104,11 +121,16 @@ public class TrackerTest {
     @Test
     public void whenDelete5ElementItem() {
         MemTracker memTracker = new MemTracker();
-        Item first = new Item("First");
-        Item second = new Item("Second");
-        Item third = new Item("Third");
-        Item four = new Item("Four");
-        Item five = new Item("Five");
+        Item first = new Item();
+        first.setName("First");
+        Item second = new Item();
+        second.setName("Second");
+        Item third = new Item();
+        third.setName("Third");
+        Item four = new Item();
+        four.setName("Four");
+        Item five = new Item();
+        five.setName("Five");
         memTracker.add(first);
         memTracker.add(second);
         memTracker.add(third);

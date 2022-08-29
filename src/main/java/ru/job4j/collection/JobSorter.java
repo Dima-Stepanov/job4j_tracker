@@ -25,12 +25,27 @@ public class JobSorter {
         System.out.println(jobs);
         jobs.sort(new SortByNameJob());
         System.out.println(jobs);
+        Item item5 = new Item();
+        item5.setId(5);
+        item5.setName("A");
+        Item item4 = new Item();
+        item4.setId(4);
+        item4.setName("B");
+        Item item3 = new Item();
+        item3.setId(3);
+        item3.setName("C");
+        Item item2 = new Item();
+        item2.setId(2);
+        item2.setName("D");
+        Item item1 = new Item();
+        item1.setId(1);
+        item1.setName("I");
         List<Item> items = Arrays.asList(
-                new Item(5, "A"),
-                new Item(4, "B"),
-                new Item(3, "C"),
-                new Item(2, "D"),
-                new Item(1, "I")
+                item5,
+                item4,
+                item3,
+                item2,
+                item1
         );
         System.out.println(items);
         Collections.sort(items);

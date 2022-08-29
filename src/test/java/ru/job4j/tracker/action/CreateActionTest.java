@@ -34,9 +34,12 @@ public class CreateActionTest {
         when(input.askStr(any(String.class))).thenReturn(nameItem);
         createAction.execute(input, tracker);
         String ln = System.lineSeparator();
+        Item item = new Item();
+        item.setId(1);
+        item.setName(nameItem);
         assertThat(output.toString(), is("=== Create a new Item ==="
                 + ln + "Добавлена заявка: "
-                + new Item(1, nameItem) + ln));
+                + item + ln));
         assertThat(tracker.findAll().get(0).getName(), is(nameItem));
     }
 }

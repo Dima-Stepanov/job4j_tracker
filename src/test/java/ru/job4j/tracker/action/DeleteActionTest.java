@@ -28,8 +28,12 @@ public class DeleteActionTest {
     public void whenDeleteActionMockitoThenOk() {
         Output output = new StudOutput();
         MemTracker tracker = new MemTracker();
-        tracker.add(new Item("item1"));
-        tracker.add(new Item("item2"));
+        Item item1 = new Item();
+        item1.setName("item1");
+        Item item2 = new Item();
+        item1.setName("item2");
+        tracker.add(item1);
+        tracker.add(item2);
         DeleteAction deleteAction = new DeleteAction(output);
         Input input = mock(Input.class);
         when(input.askInt(any(String.class))).thenReturn(1);
@@ -44,8 +48,12 @@ public class DeleteActionTest {
     public void whenDeleteActionMockitoThenFail() {
         Output output = new StudOutput();
         MemTracker tracker = new MemTracker();
-        tracker.add(new Item("item1"));
-        tracker.add(new Item("item2"));
+        Item item1 = new Item();
+        item1.setName("item1");
+        Item item2 = new Item();
+        item1.setName("item2");
+        tracker.add(item1);
+        tracker.add(item2);
         DeleteAction deleteAction = new DeleteAction(output);
         Input input = mock(Input.class);
         deleteAction.execute(input, tracker);
